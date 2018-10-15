@@ -28,7 +28,7 @@
         <template slot-scope="scope">
           <el-row>
             <el-button type="text" circle @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button type="text" disabled>删除</el-button>
+            <el-button type="text" @click="disable(scope.row.id)">停用</el-button>
             <!-- <el-button type="primary" icon="el-icon-edit" circle @click="handleUpdate(scope.row)"></el-button>
               <el-button type="danger" icon="el-icon-delete" circle></el-button> -->
           </el-row>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { list, create, update } from '@/api/admin'
+import { list, create, update, disable } from '@/api/admin'
 export default {
   // 数据
   data() {
@@ -206,6 +206,22 @@ export default {
               return false
             }
           })
+        }
+      })
+    },
+
+    // 删除
+    disable(id) {
+      this.listLoading = false
+      disable(id).then(data => {
+        if (data.code === 200) {
+          this.$notify({
+            message: data.msg,
+            type: 'success'
+          })
+          this.getList()
+        } else {
+          return false
         }
       })
     }

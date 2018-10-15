@@ -24,6 +24,13 @@ export function update(data, id) {
   })
 }
 
+export function disable(id) {
+  return request({
+    url: '/admin/' + id,
+    method: 'delete'
+  })
+}
+
 // export function logout() {
 //   return request({
 //     url: '/user/logout',
