@@ -71,6 +71,25 @@
       </div>
     </el-dialog>
 
+    <!-- 更改账户密码 -->
+    <el-dialog :title="更改账户密码" :visible.sync="dialogFormVisibles" style="width: 1110px; margin-left: auto; margin-right: auto;">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="temp.username" :disabled="dusabked" value="username" placeholder="用户名"/>
+        </el-form-item>
+        <el-form-item label="原密码" prop="oldPassword">
+          <el-input v-model="temp.oldPassword" type="password" placeholder="密码"/>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="temp.password" type="password" placeholder="密码"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="updateData()">提交</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -85,6 +104,7 @@ export default {
       total: null,
       listLoading: true,
       dialogFormVisible: false,
+      dialogFormVisibles: false,
       dusabked: false,
       dialogStatus: '',
       listQuery: {
@@ -97,7 +117,8 @@ export default {
         password: '',
         status: '',
         createdAt: '',
-        keyword: ''
+        keyword: '',
+        oldPassword: ''
       },
       rules: {
         username: [
@@ -105,6 +126,9 @@ export default {
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'change' }
+        ],
+        oldPassword: [
+          { required: true, message: '原密码不能为空', trigger: 'change' }
         ],
         email: [{ required: true, message: '邮箱', trigger: 'change' }]
       }
@@ -147,7 +171,8 @@ export default {
       this.temp = {
         id: '',
         username: '',
-        password: ''
+        password: '',
+        oldPassword: ''
       }
     },
 
@@ -156,6 +181,7 @@ export default {
       this.resetTemp()
       this.dialogStatus = '添加账户'
       this.dialogFormVisible = true
+      this.dialogFormVisibles = false
       this.dusabked = false
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -181,11 +207,11 @@ export default {
       })
     },
 
-    // 编辑
+    // 更改用户密码
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
-      this.dialogStatus = '编辑账户'
-      this.dialogFormVisible = true
+      this.dialogFormVisible = false
+      this.dialogFormVisibles = true
       this.dusabked = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -196,7 +222,7 @@ export default {
         if (valid) {
           update(this.temp, this.temp.id).then(data => {
             this.list.unshift(this.temp)
-            this.dialogFormVisible = false
+            this.dialogFormVisibles = false
             if (data.code === 200) {
               this.$notify({
                 message: data.msg,
