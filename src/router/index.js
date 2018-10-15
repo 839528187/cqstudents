@@ -36,7 +36,7 @@ export const constantRouterMap = [
       path: 'dashboard',
       name: '主页',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '主页', icon: 'admins' }
+      meta: { title: '主页', icon: 'homes' }
     }]
   },
 
@@ -45,13 +45,13 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/foodNews/list',
     name: '学校管理',
-    meta: { title: '学校管理', icon: 'content' },
+    meta: { title: '学校管理', icon: 'school' },
     children: [
       {
         path: '/foodNews/list',
         name: '学校列表',
         component: () => import('@/views/foodNews/index'),
-        meta: { title: '学校列表', icon: 'newss' }
+        meta: { title: '学校列表', icon: 'lists' }
       },
       {
         path: '/foodNews/create',
@@ -72,7 +72,7 @@ export const constantRouterMap = [
         name: '校园资讯',
         // hidden: true,
         component: () => import('@/views/foodNews/create'),
-        meta: { title: '校园资讯', icon: 'list' }
+        meta: { title: '校园资讯', icon: 'news' }
       }
     ]
   },
@@ -82,13 +82,13 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/foodNews/list',
     name: '内部资讯',
-    meta: { title: '内部资讯', icon: 'content' },
+    meta: { title: '内部资讯', icon: 'news' },
     children: [
       {
         path: '/foodNews/list',
-        name: '内部资讯',
+        name: '资讯列表',
         component: () => import('@/views/foodNews/index'),
-        meta: { title: '内部资讯', icon: 'newss' }
+        meta: { title: '资讯列表', icon: 'lists' }
       },
       {
         path: '/foodNews/create',
@@ -115,7 +115,7 @@ export const constantRouterMap = [
         path: 'index',
         name: '留言管理',
         component: () => import('@/views/category/index'),
-        meta: { title: '留言管理', icon: 'admins' }
+        meta: { title: '留言管理', icon: 'leave' }
       }
     ]
   },
@@ -128,7 +128,7 @@ export const constantRouterMap = [
         path: 'index',
         name: '分类管理',
         component: () => import('@/views/category/index'),
-        meta: { title: '分类管理', icon: 'admins' }
+        meta: { title: '分类管理', icon: 'cate' }
       }
     ]
   },
@@ -141,7 +141,7 @@ export const constantRouterMap = [
         path: 'index',
         name: '地区管理',
         component: () => import('@/views/category/index'),
-        meta: { title: '地区管理', icon: 'admins' }
+        meta: { title: '地区管理', icon: 'addr' }
       }
     ]
   },
@@ -154,7 +154,7 @@ export const constantRouterMap = [
         path: 'index',
         name: '友情链接',
         component: () => import('@/views/category/index'),
-        meta: { title: '友情链接', icon: 'admins' }
+        meta: { title: '友情链接', icon: 'links' }
       }
     ]
   },
@@ -167,7 +167,7 @@ export const constantRouterMap = [
         path: 'index',
         name: '账户管理',
         component: () => import('@/views/admin/index'),
-        meta: { title: '账户管理', icon: 'admins' }
+        meta: { title: '账户管理', icon: 'account' }
       }
     ]
   },
