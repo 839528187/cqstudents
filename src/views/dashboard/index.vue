@@ -1,19 +1,43 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name:{{ name }}</div>
-    <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>
+    <el-row :gutter="12">
+      <el-col :span="8">
+        <el-card shadow="always">
+          昨日发布新闻量 {{ tj.newsNum }}条
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card shadow="hover">
+          昨日留言量 {{ tj.leaveNum }}条
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card shadow="never">
+          昨日入驻学校 {{ tj.school }}家
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "主页",
+  name: '',
+  data() {
+    return {
+      tj: {
+        newsNum: 0,
+        leaveNum: 0,
+        school: 0
+      }
+    }
+  },
   computed: {
-    ...mapGetters(["name", "roles"])
+    ...mapGetters(['name', 'roles'])
   }
-};
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
