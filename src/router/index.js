@@ -29,9 +29,9 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    // name: '主页',
-    hidden: true,
-    // meta: { title: '主页' },
+    name: '主页',
+    // hidden: true,
+    meta: { title: '主页' },
     children: [{
       path: 'dashboard',
       name: '主页',
@@ -44,28 +44,78 @@ export const constantRouterMap = [
     path: '/foodNews',
     component: Layout,
     redirect: '/foodNews/list',
-    name: '资讯',
-    meta: { title: '资讯', icon: 'content' },
+    name: '学校管理',
+    meta: { title: '学校管理', icon: 'content' },
     children: [
       {
         path: '/foodNews/list',
-        name: '美食资讯',
+        name: '学校列表',
         component: () => import('@/views/foodNews/index'),
-        meta: { title: '美食资讯', icon: 'newss' }
+        meta: { title: '学校列表', icon: 'newss' }
       },
       {
         path: '/foodNews/create',
-        name: '添加美食资讯',
+        name: '添加学校',
         hidden: true,
         component: () => import('@/views/foodNews/create'),
-        meta: { title: '添加美食资讯', icon: 'list' }
+        meta: { title: '添加学校', icon: 'list' }
       },
       {
         path: '/foodNews/create/:id',
-        name: '编辑美食资讯',
+        name: '编辑学校',
         hidden: true,
         component: () => import('@/views/foodNews/create'),
-        meta: { title: '编辑美食资讯', icon: 'list' }
+        meta: { title: '编辑学校', icon: 'list' }
+      },
+      {
+        path: '/foodNews/create/:id',
+        name: '校园资讯',
+        // hidden: true,
+        component: () => import('@/views/foodNews/create'),
+        meta: { title: '校园资讯', icon: 'list' }
+      }
+    ]
+  },
+
+  {
+    path: '/foodNews',
+    component: Layout,
+    redirect: '/foodNews/list',
+    name: '内部资讯',
+    meta: { title: '内部资讯', icon: 'content' },
+    children: [
+      {
+        path: '/foodNews/list',
+        name: '内部资讯',
+        component: () => import('@/views/foodNews/index'),
+        meta: { title: '内部资讯', icon: 'newss' }
+      },
+      {
+        path: '/foodNews/create',
+        name: '添加资讯',
+        hidden: true,
+        component: () => import('@/views/foodNews/create'),
+        meta: { title: '添加资讯', icon: 'list' }
+      },
+      {
+        path: '/foodNews/create/:id',
+        name: '编辑资讯',
+        hidden: true,
+        component: () => import('@/views/foodNews/create'),
+        meta: { title: '编辑资讯', icon: 'list' }
+      }
+    ]
+  },
+
+  {
+    path: '/category',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '留言管理',
+        component: () => import('@/views/category/index'),
+        meta: { title: '留言管理', icon: 'admins' }
       }
     ]
   },
@@ -84,12 +134,38 @@ export const constantRouterMap = [
   },
 
   {
+    path: '/category',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '地区管理',
+        component: () => import('@/views/category/index'),
+        meta: { title: '地区管理', icon: 'admins' }
+      }
+    ]
+  },
+
+  {
+    path: '/category',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '友情链接',
+        component: () => import('@/views/category/index'),
+        meta: { title: '友情链接', icon: 'admins' }
+      }
+    ]
+  },
+
+  {
     path: '/admin',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: '用户管理',
+        name: '账户管理',
         component: () => import('@/views/admin/index'),
         meta: { title: '账户管理', icon: 'admins' }
       }
