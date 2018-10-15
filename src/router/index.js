@@ -28,7 +28,7 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    redirect: '/foodNews/list',
+    redirect: '/dashboard',
     // name: '主页',
     hidden: true,
     // meta: { title: '主页' },
