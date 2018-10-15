@@ -18,7 +18,7 @@ export function create(data) {
 
 export function update(data, id) {
   return request({
-    url: '/admin/' + id,
+    url: '/admin/password' + id,
     method: 'put',
     data
   })
