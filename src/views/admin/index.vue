@@ -156,6 +156,7 @@ export default {
       this.resetTemp()
       this.dialogStatus = '添加账户'
       this.dialogFormVisible = true
+      this.dusabked = false
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
