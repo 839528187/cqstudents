@@ -237,7 +237,7 @@ export default {
       })
     },
 
-    // 删除
+    // 处理留言
     disable(id) {
       this.listLoading = false
       disable(id).then(data => {
@@ -250,7 +250,7 @@ export default {
         } else {
           return false
         }
-      })
+      }).catch()
     }
   }
 }
