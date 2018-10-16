@@ -108,13 +108,13 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/category',
+    path: '/leave',
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: 'leave/index',
         name: '留言管理',
-        component: () => import('@/views/category/index'),
+        component: () => import('@/views/leave/index'),
         meta: { title: '留言管理', icon: 'leave' }
       }
     ]
