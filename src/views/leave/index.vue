@@ -29,7 +29,7 @@
         <template slot-scope="scope">
           <el-row>
             <el-button type="text" @click="getView(scope.row.id)">查看</el-button>
-            <el-button :disabled="disposes" type="text" @click="getDispose(scope.row.id)">处理留言</el-button>
+            <el-button :disabled="scope.row.disposes" type="text" @click="getDispose(scope.row.id)">处理留言</el-button>
           </el-row>
         </template>
       </el-table-column>
@@ -137,7 +137,6 @@ export default {
       total: null,
       listLoading: true,
       dialogFormVisibles: false,
-      disposes: false,
       autosize: false,
       readonly: false,
       listQuery: {
@@ -177,9 +176,9 @@ export default {
         this.total = response.data.pageSize
         this.list.forEach(x => {
           if (x.status === 2) {
-            this.disposes = true
+            x.disposes = true
           } else {
-            this.disposes = false
+            x.disposes = false
           }
         })
 
