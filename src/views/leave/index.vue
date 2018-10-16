@@ -29,6 +29,7 @@
         <template slot-scope="scope">
           <el-row>
             <el-button type="text" @click="getView(scope.row.id)">查看</el-button>
+            <el-button type="text" @click="getDispose(scope.row.id)">处理留言</el-button>
           </el-row>
         </template>
       </el-table-column>
@@ -51,41 +52,75 @@
 
     <!--详情-->
     <el-dialog :visible.sync="dialogFormVisibles" title="留言详情" style="width: 1110px; margin-left: auto; margin-right: auto;">
-      <div class="demo-input-suffix">
-        真实姓名: {{ temp.name }}
+
+      <div>
+        <el-input :readonly="readonly" v-model="temp.name">
+          <template slot="prepend">真实姓名:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        留言手机号: {{ temp.phone }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.phone">
+          <template slot="prepend">留言手机号:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        意向专业: {{ temp.specialty }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.specialty">
+          <template slot="prepend">意向专业:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        qq号码: {{ temp.qq }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.qq">
+          <template slot="prepend">qq号码:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        家庭地址: {{ temp.address }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.address">
+          <template slot="prepend">家庭地址:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        分数线: {{ temp.score }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.score">
+          <template slot="prepend">分数线:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        学历: {{ temp.education }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.education">
+          <template slot="prepend">学历:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        学校id: {{ temp.school_id }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.schoolId">
+          <template slot="prepend">学校id:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        备注: {{ temp.remark }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" :autosize="autosize" v-model="temp.remark" label="备注" type="textarea"/>
       </div>
-      <div class="demo-input-suffix">
-        留言状态: {{ temp.status }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.status">
+          <template slot="prepend">留言状态:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        留言类型: {{ temp.type }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.type">
+          <template slot="prepend">留言类型:</template>
+        </el-input>
       </div>
-      <div class="demo-input-suffix">
-        添加时间: {{ temp.createdAt }}
+      <div style="margin-bottom:10px"/>
+      <div>
+        <el-input :readonly="readonly" v-model="temp.createdAt">
+          <template slot="prepend">添加时间:</template>
+        </el-input>
       </div>
     </el-dialog>
 
@@ -93,7 +128,7 @@
 </template>
 
 <script>
-import { list, view } from '@/api/leave'
+import { list, view, dispose } from '@/api/leave'
 export default {
   data() {
     return {
@@ -102,6 +137,8 @@ export default {
       total: null,
       listLoading: true,
       dialogFormVisibles: false,
+      autosize: false,
+      readonly: false,
       listQuery: {
         page: 1,
         limit: 10
@@ -118,7 +155,7 @@ export default {
         address: '',
         score: '',
         education: '',
-        school_id: '',
+        schoolId: '',
         remark: '',
         scloolName: ''
       }
@@ -148,9 +185,27 @@ export default {
     getView(id) {
       this.listLoading = false
       this.dialogFormVisibles = true
+      this.readonly = true
+      this.autosize = true
       view(id).then(response => {
         if (response.code === 200) {
           this.temp = response.data
+          this.temp.status = response.data.status === 2 ? '已处理' : '未处理'
+          this.temp.type = response.data.type === 1 ? '有效留言' : '无效留言'
+        } else {
+          return false
+        }
+      })
+    },
+
+    getDispose(id) {
+      dispose(id).then(data => {
+        if (data.code === 200) {
+          this.$notify({
+            message: data.msg,
+            type: 'success'
+          })
+          this.getList()
         } else {
           return false
         }

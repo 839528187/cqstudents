@@ -14,3 +14,10 @@ export function view(id) {
     method: 'get'
   })
 }
+
+export function dispose(id) {
+  return request({
+    url: '/leave/' + id,
+    method: 'put'
+  })
+}
