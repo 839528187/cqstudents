@@ -72,7 +72,7 @@
     </el-dialog>
 
     <!-- 更改账户密码 -->
-    <el-dialog :title="更改账户密码" :visible.sync="dialogFormVisibles" style="width: 1110px; margin-left: auto; margin-right: auto;">
+    <el-dialog :visible.sync="dialogFormVisibles" title="更改账户密码" style="width: 1110px; margin-left: auto; margin-right: auto;">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="temp.username" :disabled="dusabked" value="username" placeholder="用户名"/>
