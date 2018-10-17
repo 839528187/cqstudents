@@ -28,7 +28,7 @@
       <el-table-column label="操作" prop="status" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="text">编辑</el-button>
+            <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button type="text">
               {{ scope.row.status == 1 ? "停用" : "启用" }}
             </el-button>
@@ -53,11 +53,27 @@
         @current-change="handleCurrentChange"/>
     </div>
 
+    <!-- 弹出框 -->
+    <el-dialog :title="dialogStatus" :visible.sync="dialogFormVisible" style="width: 1110px; margin-left: auto; margin-right: auto;">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="temp.name" value="name" placeholder="名称"/>
+        </el-form-item>
+        <el-form-item label="地址" prop="url">
+          <el-input v-model="temp.url" type="url" placeholder="地址"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogStatus==='添加友情链接'?createData():updateData()">提交</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-import { list } from '@/api/links'
+import { list, create, update } from '@/api/links'
 export default {
   data() {
     return {
@@ -65,7 +81,8 @@ export default {
       list: null,
       total: null,
       listLoading: true,
-      dialogFormVisibles: false,
+      dialogFormVisible: false,
+      dialogStatus: '',
       listQuery: {
         page: 1,
         limit: 10
@@ -76,6 +93,14 @@ export default {
         url: '',
         status: '',
         createdAt: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '连接名称不能为空', trigger: 'change' }
+        ],
+        url: [
+          { required: true, message: '连接地址不能为空', trigger: 'change' }
+        ]
       }
     }
   },
@@ -96,6 +121,72 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 1.5 * 200)
+      })
+    },
+
+    resetTemp() {
+      this.temp = {
+        id: '',
+        name: '',
+        url: ''
+      }
+    },
+
+    // 添加连接
+    handleCreate() {
+      this.resetTemp()
+      this.dialogStatus = '添加友情链接'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      this.$refs['dataForm'].validate(valid => {
+        if (valid) {
+          create(this.temp).then(data => {
+            this.list.unshift(this.temp)
+            this.dialogFormVisible = false
+            if (data.code === 200) {
+              this.$notify({
+                message: data.msg,
+                type: 'success'
+              })
+              this.getList()
+            } else {
+              return false
+            }
+          })
+        }
+      })
+    },
+
+    // 编辑连接
+    handleUpdate(row) {
+      this.temp = Object.assign({}, row) // copy obj
+      this.dialogStatus = '编辑友情链接'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm']
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate(valid => {
+        if (valid) {
+          update(this.temp, this.temp.id).then(data => {
+            this.list.unshift(this.temp)
+            this.dialogFormVisible = false
+            if (data.code === 200) {
+              this.$notify({
+                message: data.msg,
+                type: 'success'
+              })
+              this.getList()
+            } else {
+              return false
+            }
+          })
+        }
       })
     },
 

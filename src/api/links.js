@@ -7,3 +7,19 @@ export function list(query) {
     params: query
   })
 }
+
+export function create(data) {
+  return request({
+    url: '/links',
+    method: 'post',
+    data
+  })
+}
+
+export function update(data, id) {
+  return request({
+    url: '/links/' + id,
+    method: 'put',
+    data
+  })
+}
