@@ -28,7 +28,7 @@
         <template slot-scope="scope">
           <el-row>
             <el-button type="text" circle @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button type="text" @click="disable(scope.row.id)">停用</el-button>
+            <el-button type="text" @click="getDispose(scope.row.id)">停用</el-button>
             <!-- <el-button type="primary" icon="el-icon-edit" circle @click="handleUpdate(scope.row)"></el-button>
               <el-button type="danger" icon="el-icon-delete" circle></el-button> -->
           </el-row>
@@ -194,9 +194,9 @@ export default {
             this.list.unshift(this.temp)
             this.dialogFormVisible = false
             if (data.code === 200) {
-              this.$notify({
-                message: data.msg,
-                type: 'success'
+              this.$message({
+                type: 'success',
+                message: data.msg
               })
               this.getList()
             } else {
@@ -224,9 +224,9 @@ export default {
             this.list.unshift(this.temp)
             this.dialogFormVisibles = false
             if (data.code === 200) {
-              this.$notify({
-                message: data.msg,
-                type: 'success'
+              this.$message({
+                type: 'success',
+                message: data.msg
               })
               this.getList()
             } else {
@@ -237,21 +237,32 @@ export default {
       })
     },
 
-    // 处理留言
-    disable(id) {
-      this.listLoading = false
-      disable(id).then(data => {
-        if (data.code === 200) {
-          this.$notify({
-            message: data.msg,
-            type: 'success'
-          })
-          this.getList()
-        } else {
-          return false
-        }
-      }).catch()
+    // 停用账户
+    getDispose(id) {
+      this.$confirm('此操作将停用账户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        disable(id).then(data => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.getList()
+          } else {
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消停用账户'
+        })
+      })
     }
+
   }
 }
 </script>

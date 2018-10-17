@@ -23,3 +23,17 @@ export function update(data, id) {
     data
   })
 }
+
+export function disable(id) {
+  return request({
+    url: '/links/disable/' + id,
+    method: 'delete'
+  })
+}
+
+export function deletes(id) {
+  return request({
+    url: '/links/' + id,
+    method: 'delete'
+  })
+}

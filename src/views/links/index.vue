@@ -29,10 +29,10 @@
         <template slot-scope="scope">
           <el-row>
             <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button type="text">
+            <el-button type="text" @click="disableData(scope.row.id)">
               {{ scope.row.status == 1 ? "停用" : "启用" }}
             </el-button>
-            <el-button type="text">删除</el-button>
+            <el-button type="text" @click="deleteData(scope.row.id)">删除</el-button>
           </el-row>
         </template>
       </el-table-column>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { list, create, update } from '@/api/links'
+import { list, create, update, disable, deletes } from '@/api/links'
 export default {
   data() {
     return {
@@ -148,9 +148,9 @@ export default {
             this.list.unshift(this.temp)
             this.dialogFormVisible = false
             if (data.code === 200) {
-              this.$notify({
-                message: data.msg,
-                type: 'success'
+              this.$message({
+                type: 'success',
+                message: data.msg
               })
               this.getList()
             } else {
@@ -177,9 +177,9 @@ export default {
             this.list.unshift(this.temp)
             this.dialogFormVisible = false
             if (data.code === 200) {
-              this.$notify({
-                message: data.msg,
-                type: 'success'
+              this.$message({
+                type: 'success',
+                message: data.msg
               })
               this.getList()
             } else {
@@ -187,6 +187,58 @@ export default {
             }
           })
         }
+      })
+    },
+
+    // 停用启用友情链接
+    disableData(id) {
+      this.$confirm('此操作将操作该链接吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        disable(id).then(data => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.getList()
+          } else {
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        })
+      })
+    },
+
+    // 删除友情链接
+    deleteData(id) {
+      this.$confirm('此操作将删除该链接吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deletes(id).then(data => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.getList()
+          } else {
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
 

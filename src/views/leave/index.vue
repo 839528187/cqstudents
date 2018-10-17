@@ -215,18 +215,29 @@ export default {
         }
       })
     },
-
+    // 处理留言
     getDispose(id) {
-      dispose(id).then(data => {
-        if (data.code === 200) {
-          this.$notify({
-            message: data.msg,
-            type: 'success'
-          })
-          this.getList()
-        } else {
-          return false
-        }
+      this.$confirm('此操作将处理该留言, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        dispose(id).then(data => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.getList()
+          } else {
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消处理'
+        })
       })
     },
 
