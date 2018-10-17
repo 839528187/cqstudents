@@ -3,6 +3,13 @@
     <div class="filter-container">
       <el-input size="small" placeholder="请输入手机号" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
       <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain>搜索</el-button>
+      <el-date-picker
+        v-model="value13"
+        :default-time="['00:00:00', '23:59:59']"
+        style="margin-left: 10px; margin-bottom:1px; width:400px;"
+        type="daterange"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"/>
     </div>
 
     <div style="margin-bottom:1px"/>
@@ -18,7 +25,11 @@
       <el-table-column label="id" prop="id" align="center" width="60px"/>
       <el-table-column label="姓名" prop="name" align="center"/>
       <el-table-column label="手机号" prop="phone" align="center"/>
-      <el-table-column label="类型" prop="type" align="center"/>
+      <el-table-column label="类型" prop="type" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.type == 2 ? '无效留言' : '有效留言' }}
+        </template>
+      </el-table-column>
       <el-table-column label="状态" prop="status" align="center">
         <template slot-scope="scope">
           {{ scope.row.status == 2 ? '已处理' : '未处理' }}
