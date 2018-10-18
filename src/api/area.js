@@ -14,3 +14,11 @@ export function operating(id) {
     method: 'put'
   })
 }
+
+export function update(data, id) {
+  return request({
+    url: '/area/update/' + id,
+    method: 'put',
+    data
+  })
+}

@@ -17,7 +17,7 @@
       style="width: 100%;">
       <el-table-column label="id" prop="areaid" align="center" width="60px"/>
       <el-table-column label="地区名称" prop="name" align="center"/>
-      <el-table-column label="地区缩拼" prop="initials" align="center"/>
+      <el-table-column label="地区栏目地址" prop="initials" align="center"/>
       <el-table-column label="状态" prop="status" align="center">
         <template slot-scope="scope">
           {{ scope.row.status == 2 ? '停用' : '启用' }}
@@ -26,6 +26,7 @@
       <el-table-column label="操作" prop="status" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-row>
+            <el-button type="text" circle @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button type="text" @click="operatingData(scope.row.areaid,scope.row.status)">
               {{ scope.row.status == 1 ? "停用" : "启用" }}
             </el-button>
@@ -48,18 +49,34 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"/>
     </div>
+    <!--更新地区-->
+    <el-dialog :visible.sync="dialogFormVisible" title="更新地区" style="width: 1110px; margin-left: auto; margin-right: auto;">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="地区名称" prop="name">
+          <el-input v-model="temp.name" value="name" placeholder="用户名"/>
+        </el-form-item>
+        <el-form-item label="地区栏目连接" prop="initials">
+          <el-input v-model="temp.initials" placeholder="密码"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="updateData()">提交</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
-import { list, operating } from '@/api/area'
+import { list, operating, update } from '@/api/area'
 export default {
   data() {
     return {
       tableKey: 0,
       list: null,
       total: null,
+      dialogFormVisible: false,
       listLoading: true,
       listQuery: {
         page: 1,
@@ -74,10 +91,10 @@ export default {
       },
       rules: {
         name: [
-          { required: true, message: '连接名称不能为空', trigger: 'change' }
+          { required: true, message: '地区名称不能为空', trigger: 'change' }
         ],
-        url: [
-          { required: true, message: '连接地址不能为空', trigger: 'change' }
+        initials: [
+          { required: true, message: '地区栏目连接不能为空', trigger: 'change' }
         ]
       }
     }
@@ -127,6 +144,35 @@ export default {
           type: 'info',
           message: '已取消' + msgs
         })
+      })
+    },
+
+    // 更新地区
+    handleUpdate(row) {
+      this.temp = Object.assign({}, row) // copy obj
+      this.dialogFormVisible = true
+      this.dusabked = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate(valid => {
+        if (valid) {
+          update(this.temp, this.temp.areaid).then(data => {
+            this.list.unshift(this.temp)
+            this.dialogFormVisible = false
+            if (data.code === 200) {
+              this.$message({
+                type: 'success',
+                message: data.msg
+              })
+              this.getList()
+            } else {
+              return false
+            }
+          })
+        }
       })
     },
 
