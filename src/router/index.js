@@ -134,13 +134,13 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/category',
+    path: '/area',
     component: Layout,
     children: [
       {
         path: 'index',
         name: '地区管理',
-        component: () => import('@/views/category/index'),
+        component: () => import('@/views/area/index'),
         meta: { title: '地区管理', icon: 'addr' }
       }
     ]
