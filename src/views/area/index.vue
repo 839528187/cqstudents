@@ -2,6 +2,13 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.keyword" size="small" placeholder="请输入名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
+      <el-select v-model="listQuery.parentId" placeholder="请选择">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"/>
+      </el-select>
       <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button>
     </div>
 
@@ -82,8 +89,27 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        keyword: ''
+        keyword: '',
+        parentId: ''
       },
+
+      options: [{
+        value: '1',
+        label: '黄金糕'
+      }, {
+        value: '2',
+        label: '双皮奶'
+      }, {
+        value: '3',
+        label: '蚵仔煎'
+      }, {
+        value: '4',
+        label: '龙须面'
+      }, {
+        value: '5',
+        label: '北京烤鸭'
+      }],
+
       temp: {
         areaid: '',
         name: '',
