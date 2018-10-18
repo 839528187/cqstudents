@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.keyword" size="small" placeholder="请输入名称" style="width: 200px; margin-left: 0px; margin-bottom:1px;" class="filter-item"/>
-      <el-select v-model="listQuery.parentId" placeholder="请选择顶级分类" size="small" style="width: 200px; margin-left: 20px; margin-bottom:1px; height:32px;">
+      <el-select v-model="listQuery.parentId" clearable="ture" placeholder="请选择顶级分类" size="small" style="width: 200px; margin-left: 0px; margin-bottom:1px; height:32px;">
         <el-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value"/>
       </el-select>
+      <el-input v-model="listQuery.keyword" size="small" placeholder="请输入名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
       <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button>
     </div>
 
