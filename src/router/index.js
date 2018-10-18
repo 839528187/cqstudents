@@ -108,19 +108,6 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/leave',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: '留言管理',
-        component: () => import('@/views/leave/index'),
-        meta: { title: '留言管理', icon: 'leave' }
-      }
-    ]
-  },
-
-  {
     path: '/category',
     component: Layout,
     children: [
@@ -129,6 +116,19 @@ export const constantRouterMap = [
         name: '分类管理',
         component: () => import('@/views/category/index'),
         meta: { title: '分类管理', icon: 'cate' }
+      }
+    ]
+  },
+
+  {
+    path: '/leave',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '留言管理',
+        component: () => import('@/views/leave/index'),
+        meta: { title: '留言管理', icon: 'leave' }
       }
     ]
   },
