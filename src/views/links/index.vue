@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button size="small" type="primary" plain @click="handleCreate">添加链接</el-button>
-      <el-input size="small" placeholder="请输入名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
-      <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain>搜索</el-button>
+      <el-input v-model="listQuery.keyword" size="small" placeholder="请输入名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
+      <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button>
     </div>
 
     <div style="margin-bottom:1px"/>
@@ -85,7 +85,8 @@ export default {
       dialogStatus: '',
       listQuery: {
         page: 1,
-        limit: 10
+        limit: 10,
+        keyword: ''
       },
       temp: {
         id: '',
@@ -114,7 +115,7 @@ export default {
     // 获取列表
     getList() {
       this.listLoading = true
-      list(this.listQuery, this.temp.keyword).then(response => {
+      list(this.listQuery).then(response => {
         this.list = response.data.data
         this.total = response.data.pageSize
         // Just to simulate the time of the request
