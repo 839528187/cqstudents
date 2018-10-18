@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.keyword" size="small" placeholder="请输入名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
-      <el-select v-model="listQuery.parentId" placeholder="请选择">
+      <el-input v-model="listQuery.keyword" size="small" placeholder="请输入名称" style="width: 200px; margin-left: 0px; margin-bottom:1px;" class="filter-item"/>
+      <el-select v-model="listQuery.parentId" placeholder="请选择顶级分类" size="small" style="width: 200px; margin-left: 20px; margin-bottom:1px; height:32px;">
         <el-option
           v-for="item in options"
           :key="item.value"
