@@ -26,7 +26,7 @@
       <el-table-column label="操作" prop="status" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="text" @click="operatingData(scope.row.areaid)">
+            <el-button type="text" @click="operatingData(scope.row.areaid,scope.row.status)">
               {{ scope.row.status == 1 ? "停用" : "启用" }}
             </el-button>
           </el-row>
@@ -104,8 +104,9 @@ export default {
     },
 
     // 操作地区（停用启用）
-    operatingData(id) {
-      this.$confirm('您确定操作此地区吗, 是否继续?', '提示', {
+    operatingData(id, status) {
+      var msgs = status === 1 ? '停用' : '启用'
+      this.$confirm('您确定' + msgs + '此地区吗, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -124,7 +125,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消操作'
+          message: '已取消' + msgs
         })
       })
     },
