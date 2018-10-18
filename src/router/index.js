@@ -41,7 +41,7 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/foodNews',
+    path: '/school',
     component: Layout,
     redirect: '/foodNews/list',
     name: '学校管理',
@@ -68,11 +68,11 @@ export const constantRouterMap = [
         meta: { title: '编辑学校', icon: 'list' }
       },
       {
-        path: '/foodNews/create/:id',
-        name: '校园资讯',
+        path: '/school/type',
+        name: '学校类别',
         // hidden: true,
-        component: () => import('@/views/foodNews/create'),
-        meta: { title: '校园资讯', icon: 'news' }
+        component: () => import('@/views/type/index'),
+        meta: { title: '学校类别', icon: 'cate' }
       }
     ]
   },

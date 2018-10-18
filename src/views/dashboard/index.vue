@@ -21,7 +21,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { indexs } from '@/api/index'
 
 export default {
   data() {
@@ -33,9 +33,18 @@ export default {
       }
     }
   },
-  computed: {
-    // ...mapGetters(['name', 'roles'])
+  created() {
+    this.getInfo()
+  },
+
+  methods: {
+    getInfo() {
+      indexs().then(data => {
+        this.tj.leaveNum = data.data.leaveNum
+      })
+    }
   }
+
 }
 </script>
 

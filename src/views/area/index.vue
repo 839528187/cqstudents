@@ -17,6 +17,7 @@
       style="width: 100%;">
       <el-table-column label="id" prop="areaid" align="center" width="60px"/>
       <el-table-column label="地区名称" prop="name" align="center"/>
+      <el-table-column label="上级地区" prop="parentName" align="center"/>
       <el-table-column label="地区栏目地址" prop="initials" align="center"/>
       <el-table-column label="状态" prop="status" align="center">
         <template slot-scope="scope">
@@ -87,7 +88,8 @@ export default {
         areaid: '',
         name: '',
         initials: '',
-        status: ''
+        status: '',
+        parentName: ''
       },
       rules: {
         name: [
