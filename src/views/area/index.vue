@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select v-model="listQuery.parentId" clearable="ture" placeholder="请选择顶级分类" size="small" style="width: 200px; margin-left: 0px; margin-bottom:1px; height:32px;" @clear="getList" @change="getList">
+      <el-select v-model="listQuery.parentId" clearable placeholder="请选择顶级地区" size="small" style="width: 200px; margin-left: 0px; margin-bottom:1px; height:32px;" @clear="getList" @change="getList">
         <el-option
           v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"/>
+          :key="item.areaid"
+          :label="item.name"
+          :value="item.areaid"/>
       </el-select>
-      <el-input v-model="listQuery.keyword" clearable="true" size="small" placeholder="请输入搜索地区名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @keyup.enter.native="getList" @clear="getList"/>
+      <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入搜索地区名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @keyup.enter.native="getList" @clear="getList"/>
       <!-- <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button> -->
     </div>
 
@@ -77,12 +77,13 @@
 </template>
 
 <script>
-import { list, operating, update } from '@/api/area'
+import { list, operating, update, parent } from '@/api/area'
 export default {
   data() {
     return {
       tableKey: 0,
       list: null,
+      options: null,
       total: null,
       dialogFormVisible: false,
       listLoading: true,
@@ -92,24 +93,6 @@ export default {
         keyword: '',
         parentId: ''
       },
-
-      options: [{
-        value: '1',
-        label: '黄金糕'
-      }, {
-        value: '2',
-        label: '双皮奶'
-      }, {
-        value: '3',
-        label: '蚵仔煎'
-      }, {
-        value: '4',
-        label: '龙须面'
-      }, {
-        value: '5',
-        label: '北京烤鸭'
-      }],
-
       temp: {
         areaid: '',
         name: '',
@@ -130,6 +113,7 @@ export default {
 
   created() {
     this.getList()
+    this.getParent()
   },
 
   methods: {
@@ -145,6 +129,12 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 1.5 * 200)
+      })
+    },
+
+    getParent() {
+      parent().then(data => {
+        this.options = data.data
       })
     },
 

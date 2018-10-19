@@ -3,13 +3,16 @@
     <div class="filter-container">
       <el-input v-model="listQuery.keyword" size="small" placeholder="请输入手机号" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
       <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button>
-      <!-- <el-date-picker
-        v-model="value13"
+      <el-date-picker
         :default-time="['00:00:00', '23:59:59']"
+        v-model="value13"
+        size="small"
         style="margin-left: 10px; margin-bottom:1px; width:400px;"
         type="daterange"
+        format="yyyy-MM-dd HH:mm:ss"
         start-placeholder="开始日期"
-        end-placeholder="结束日期"/> -->
+        end-placeholder="结束日期"
+        @change="getList"/>
     </div>
 
     <div style="margin-bottom:1px"/>
@@ -44,6 +47,11 @@
           </el-row>
         </template>
       </el-table-column>
+
+      <div slot="empty">
+        <p :style="{'marginTop': '23px'}">未查询到您要的记录</p>
+      </div>
+
     </el-table>
     <!-- 分页 -->
 
@@ -150,6 +158,7 @@ export default {
       dialogFormVisibles: false,
       autosize: false,
       readonly: false,
+      value13: [],
       listQuery: {
         page: 1,
         limit: 10,
@@ -183,6 +192,10 @@ export default {
     // 获取列表
     getList() {
       this.listLoading = true
+      if (this.value13 && this.value13.length > 0) {
+        this.listQuery.startTime = this.value13[0]
+        this.listQuery.endTime = this.value13[1]
+      }
       list(this.listQuery).then(response => {
         this.list = response.data.data
         this.total = response.data.pageSize
@@ -218,6 +231,7 @@ export default {
         }
       })
     },
+
     // 处理留言
     getDispose(id) {
       this.$confirm('此操作将处理该留言, 是否继续?', '提示', {

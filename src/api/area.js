@@ -22,3 +22,10 @@ export function update(data, id) {
     data
   })
 }
+
+export function parent() {
+  return request({
+    url: '/area/parent',
+    method: 'get'
+  })
+}
