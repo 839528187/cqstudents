@@ -14,3 +14,11 @@ export function parent() {
     method: 'get'
   })
 }
+
+export function create(data) {
+  return request({
+    url: '/type',
+    method: 'post',
+    data
+  })
+}

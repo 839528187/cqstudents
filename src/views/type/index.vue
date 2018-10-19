@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+      <el-button size="small" type="primary" plain @click="handleCreate">添加类别</el-button>
       <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @keyup.enter.native="getList" @clear="getList"/>
       <el-select v-model="listQuery.parentId" clearable size="small" placeholder="请选择" style="width: 200px; margin-left: 10px; margin-bottom:1px;" @clear="getList" @change="getList">
         <el-option
@@ -54,11 +55,34 @@
         @current-change="handleCurrentChange"/>
     </div>
 
+    <!-- 弹出框 -->
+    <el-dialog :title="dialogStatus" :visible.sync="dialogFormVisible" style="width: 1110px; margin-left: auto; margin-right: auto;">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="上级" prop="praentId">
+          <el-select v-model="temp.praentId" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"/>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="temp.name" value="name" placeholder="类别名称"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogStatus==='添加类别'?createData():updateData()">提交</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-import { list, parent } from '@/api/type'
+import { list, parent, create } from '@/api/type'
 export default {
   data() {
     return {
@@ -67,6 +91,8 @@ export default {
       total: null,
       listLoading: true,
       options: null,
+      dialogStatus: '',
+      dialogFormVisible: false,
       listQuery: {
         page: 1,
         limit: 10,
@@ -76,16 +102,13 @@ export default {
       temp: {
         id: '',
         name: '',
-        praentId: '',
+        praentId: -1,
         status: '',
         createdAt: ''
       },
       rules: {
         name: [
           { required: true, message: '地区名称不能为空', trigger: 'change' }
-        ],
-        initials: [
-          { required: true, message: '地区栏目连接不能为空', trigger: 'change' }
         ]
       }
     }
@@ -97,7 +120,6 @@ export default {
   },
 
   methods: {
-
     // 获取列表
     getList() {
       this.listLoading = true
@@ -114,12 +136,56 @@ export default {
       })
     },
 
+    resetTemp() {
+      this.temp = {
+        id: '',
+        name: '',
+        praentId: ''
+      }
+    },
+
     // 查询所有父级学校类别
     getParent() {
       parent().then(data => {
+        data.data.unshift({ name: '顶级分类', id: 0 })
         this.options = data.data
+        this.temp.praentId = 0
       }).catch(() => {
 
+      })
+    },
+
+    // 添加类别
+    handleCreate() {
+      this.resetTemp()
+      this.dialogStatus = '添加类别'
+      this.dialogFormVisible = true
+      this.getParent()
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      this.$refs['dataForm'].validate(valid => {
+        if (valid) {
+          if (this.temp.praentId === '') {
+            this.temp.praentId = 0
+          }
+          create(this.temp).then(data => {
+            this.list.unshift(this.temp)
+            this.dialogFormVisible = false
+            if (data.code === 200) {
+              this.$message({
+                type: 'success',
+                message: data.msg
+              })
+              this.getList()
+              this.getParent()
+            } else {
+              return false
+            }
+          })
+        }
       })
     },
 
