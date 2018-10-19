@@ -57,8 +57,8 @@
 
     <!-- 弹出框 -->
     <el-dialog :title="dialogStatus" :visible.sync="dialogFormVisible" style="width: 1110px; margin-left: auto; margin-right: auto;">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="上级" prop="praentId">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="上级类别" prop="praentId">
           <el-select v-model="temp.praentId" placeholder="请选择">
             <el-option
               v-for="item in options"
@@ -68,7 +68,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="类别名称" prop="name">
           <el-input v-model="temp.name" value="name" placeholder="类别名称"/>
         </el-form-item>
       </el-form>
