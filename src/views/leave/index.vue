@@ -208,7 +208,8 @@ export default {
             }
           })
         }
-
+        this.listQuery.startTime = null
+        this.listQuery.endTime = null
         // Just to simulate the time of the request
         setTimeout(() => {
           this.listLoading = false

@@ -25,7 +25,7 @@
       style="width: 100%;">
       <el-table-column label="id" prop="id" align="center" width="60px"/>
       <el-table-column label="类别名称" prop="name" align="center"/>
-      <el-table-column label="上级类别" prop="praentId" align="center"/>
+      <el-table-column label="上级类别" prop="parentName" align="center"/>
       <el-table-column label="状态" prop="status" align="center">
         <template slot-scope="scope">
           {{ scope.row.status == 2 ? '停用' : '正常' }}
@@ -103,9 +103,10 @@ export default {
       temp: {
         id: '',
         name: '',
-        praentId: -1,
+        praentId: '',
         status: '',
-        createdAt: ''
+        createdAt: '',
+        parentName: ''
       },
       rules: {
         name: [

@@ -73,6 +73,13 @@ export const constantRouterMap = [
         // hidden: true,
         component: () => import('@/views/type/index'),
         meta: { title: '学校类别', icon: 'cate' }
+      },
+      {
+        path: '/school/category',
+        name: '学校分类',
+        // hidden: true,
+        component: () => import('@/views/type/index'),
+        meta: { title: '学校分类', icon: 'cate' }
       }
     ]
   },
@@ -81,8 +88,8 @@ export const constantRouterMap = [
     path: '/foodNews',
     component: Layout,
     redirect: '/foodNews/list',
-    name: '内部资讯',
-    meta: { title: '内部资讯', icon: 'news' },
+    name: '资讯管理',
+    meta: { title: '资讯管理', icon: 'news' },
     children: [
       {
         path: '/foodNews/list',
@@ -103,19 +110,13 @@ export const constantRouterMap = [
         hidden: true,
         component: () => import('@/views/foodNews/create'),
         meta: { title: '编辑资讯', icon: 'list' }
-      }
-    ]
-  },
-
-  {
-    path: '/category',
-    component: Layout,
-    children: [
+      },
       {
-        path: 'index',
-        name: '分类管理',
-        component: () => import('@/views/category/index'),
-        meta: { title: '分类管理', icon: 'cate' }
+        path: '/foodNews/create',
+        name: '资讯分类',
+        // hidden: true,
+        component: () => import('@/views/foodNews/create'),
+        meta: { title: '资讯分类', icon: 'list' }
       }
     ]
   },
