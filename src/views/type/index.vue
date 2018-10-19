@@ -35,7 +35,8 @@
       <el-table-column label="操作" prop="status" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="text" circle>编辑</el-button>
+            <el-button type="text" circle @click="handleUpdate(scope.row,scope.row.id)">编辑</el-button>
+            <el-button type="text" circle @click="deleteData(scope.row.id)">删除</el-button>
           </el-row>
         </template>
       </el-table-column>
@@ -82,7 +83,7 @@
 </template>
 
 <script>
-import { list, parent, create } from '@/api/type'
+import { list, parent, create, update, deletes } from '@/api/type'
 export default {
   data() {
     return {
@@ -186,6 +187,61 @@ export default {
             }
           })
         }
+      })
+    },
+
+    // 编辑类别
+    handleUpdate(row) {
+      this.temp = Object.assign({}, row) // copy obj
+      this.dialogStatus = '编辑类别'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm']
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate(valid => {
+        if (valid) {
+          update(this.temp, this.temp.id).then(data => {
+            this.list.unshift(this.temp)
+            this.dialogFormVisible = false
+            if (data.code === 200) {
+              this.$message({
+                type: 'success',
+                message: data.msg
+              })
+              this.getList()
+            } else {
+              return false
+            }
+          })
+        }
+      })
+    },
+
+    // 删除类别链接
+    deleteData(id) {
+      this.$confirm('此操作将删除该类别吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deletes(id).then(data => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.getList()
+          } else {
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
 

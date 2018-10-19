@@ -22,3 +22,18 @@ export function create(data) {
     data
   })
 }
+
+export function update(data, id) {
+  return request({
+    url: '/type/' + id,
+    method: 'put',
+    data
+  })
+}
+
+export function deletes(id) {
+  return request({
+    url: '/type/' + id,
+    method: 'delete'
+  })
+}
