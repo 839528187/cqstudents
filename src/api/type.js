@@ -7,3 +7,10 @@ export function list(query) {
     params: query
   })
 }
+
+export function parent() {
+  return request({
+    url: '/type/parent',
+    method: 'get'
+  })
+}
