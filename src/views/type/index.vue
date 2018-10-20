@@ -220,7 +220,7 @@ export default {
       })
     },
 
-    // 删除类别链接
+    // 删除类别
     deleteData(id) {
       this.$confirm('此操作将删除该类别吗, 是否继续?', '提示', {
         confirmButtonText: '确定',
