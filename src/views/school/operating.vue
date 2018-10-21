@@ -8,8 +8,8 @@
         <!-- <SourceUrlDropdown v-model="postForm.source_uri" />  -->
         <el-button v-loading="loading" style="margin-left: 10px;" type="success">提交
         </el-button>
-        <el-button v-loading="loading" type="warning">草稿箱</el-button>
-        <el-button v-loading="loading" type="info">返回列表</el-button>
+        <!-- <el-button v-loading="loading" type="warning">草稿箱</el-button> -->
+        <el-button v-loading="loading" type="info" @click="listSchool">返回列表</el-button>
       </sticky>
 
       <div class="createPost-main-container">
@@ -212,9 +212,9 @@ export default {
     //   return isLt2M
     // },
 
-    // listSchool() {
-    //   this.$router.push('/school/list')
-    // }
+    listSchool() {
+      this.$router.push('/school/list')
+    }
   }
 }
 </script>

@@ -43,7 +43,7 @@ export const constantRouterMap = [
   {
     path: '/school',
     component: Layout,
-    redirect: '/school',
+    redirect: '/school/list',
     name: '学校管理',
     meta: { title: '学校管理', icon: 'school' },
     children: [

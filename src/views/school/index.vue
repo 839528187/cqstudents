@@ -38,7 +38,7 @@
       <el-table-column label="操作" prop="status" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="text">编辑</el-button>
+            <el-button type="text" @click="updateSchool(scope.row.id)">编辑</el-button>
             <el-button type="text">删除</el-button>
             <el-dropdown style="margin-left: 10px; margin-bottom:1px;">
               <el-button type="text" size="small">
@@ -127,6 +127,10 @@ export default {
 
     createSchool() {
       this.$router.push('/school/create')
+    },
+
+    updateSchool(id) {
+      this.$router.push('/school/create/' + id)
     },
 
     handleFilter() {
