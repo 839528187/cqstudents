@@ -54,17 +54,17 @@ export const constantRouterMap = [
         meta: { title: '学校列表', icon: 'lists' }
       },
       {
-        path: '/foodNews/create',
+        path: '/school/create',
         name: '添加学校',
         hidden: true,
-        component: () => import('@/views/foodNews/create'),
+        component: () => import('@/views/school/operating'),
         meta: { title: '添加学校', icon: 'list' }
       },
       {
-        path: '/foodNews/create/:id',
+        path: '/school/create/:id',
         name: '编辑学校',
         hidden: true,
-        component: () => import('@/views/foodNews/create'),
+        component: () => import('@/views/school/operating'),
         meta: { title: '编辑学校', icon: 'list' }
       },
       {
