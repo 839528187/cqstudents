@@ -59,12 +59,12 @@
     </div>
     <!--更新地区-->
     <el-dialog :visible.sync="dialogFormVisible" title="更新地区" style="width: 1110px; margin-left: auto; margin-right: auto;">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
         <el-form-item label="地区名称" prop="name">
-          <el-input v-model="temp.name" value="name" placeholder="用户名"/>
+          <el-input v-model="temp.name" value="name" placeholder="地区名称"/>
         </el-form-item>
-        <el-form-item label="地区栏目连接" prop="initials">
-          <el-input v-model="temp.initials" placeholder="密码"/>
+        <el-form-item label="栏目连接" prop="initials">
+          <el-input v-model="temp.initials" placeholder="栏目连接"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
