@@ -36,6 +36,10 @@
           </el-row>
         </template>
       </el-table-column>
+
+      <div slot="empty">
+        <p :style="{'marginTop': '23px'}">未查询到您要的记录</p>
+      </div>
     </el-table>
     <!-- 分页 -->
 
