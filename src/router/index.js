@@ -43,14 +43,14 @@ export const constantRouterMap = [
   {
     path: '/school',
     component: Layout,
-    redirect: '/foodNews/list',
+    redirect: '/school',
     name: '学校管理',
     meta: { title: '学校管理', icon: 'school' },
     children: [
       {
-        path: '/foodNews/list',
+        path: '/school/list',
         name: '学校列表',
-        component: () => import('@/views/foodNews/index'),
+        component: () => import('@/views/school/index'),
         meta: { title: '学校列表', icon: 'lists' }
       },
       {
@@ -73,14 +73,14 @@ export const constantRouterMap = [
         // hidden: true,
         component: () => import('@/views/type/index'),
         meta: { title: '学校类别', icon: 'cate' }
-      },
-      {
-        path: '/school/category',
-        name: '学校分类',
-        // hidden: true,
-        component: () => import('@/views/type/index'),
-        meta: { title: '学校分类', icon: 'cate' }
       }
+      // {
+      //   path: '/school/category',
+      //   name: '学校分类',
+      //   // hidden: true,
+      //   component: () => import('@/views/type/index'),
+      //   meta: { title: '学校分类', icon: 'cate' }
+      // }
     ]
   },
 
