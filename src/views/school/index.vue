@@ -2,8 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button size="small" type="primary" plain @click="createSchool()">添加学校</el-button>
-      <el-input v-model="listQuery.keyword" size="small" placeholder="请输入学校名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
-      <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button>
+      <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入学校名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @blur="getList" @clear="getList"/>
+      <!-- <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button> -->
       <el-cascader :options="area" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" change-on-select clearable placeholder="地区搜索-可以搜索地区名称" filterable @change="getList"/>
     </div>
 
