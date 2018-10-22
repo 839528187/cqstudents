@@ -4,6 +4,7 @@
       <el-button size="small" type="primary" plain @click="createSchool()">添加学校</el-button>
       <el-input v-model="listQuery.keyword" size="small" placeholder="请输入学校名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item"/>
       <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain>搜索</el-button>
+      <el-cascader :options="area" style="width: 200px; margin-left: 10px; margin-bottom:1px;" size="small" change-on-select placeholder="试试搜索：指南" filterable @change="getList"/>
     </div>
 
     <div style="margin-bottom:1px"/>
@@ -78,6 +79,7 @@
 
 <script>
 import { list } from '@/api/school'
+import { search } from '@/api/area'
 export default {
   data() {
     return {
@@ -86,11 +88,13 @@ export default {
       total: null,
       listLoading: true,
       dialogFormVisible: false,
+      area: [],
       dialogStatus: '',
       listQuery: {
         page: 1,
         limit: 10,
-        keyword: ''
+        keyword: '',
+        areaId: ''
       },
       temp: {
         id: '',
@@ -112,12 +116,17 @@ export default {
 
   created() {
     this.getList()
+    this.getAreaLists()
   },
 
   methods: {
 
     // 获取列表
-    getList() {
+    getList(val) {
+      console.log(val)
+      if (val) {
+        this.listQuery.areaId = val[val.length - 1]
+      }
       this.listLoading = true
       list(this.listQuery).then(response => {
         this.list = response.data.data
@@ -126,6 +135,15 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 1.5 * 200)
+      })
+    },
+
+    // 地区筛选
+    getAreaLists() {
+      search().then(data => {
+        this.area = data.data
+      }).catch(e => {
+        console.log(e)
       })
     },
 

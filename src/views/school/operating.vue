@@ -24,14 +24,14 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="80px" label="所属地区:" prop="areaId" class="postInfo-container-item">
+                  <el-form-item label="所属地区:" prop="areaId" class="postInfo-container-item">
                     <el-select v-model="temp.areaId" placeholder="请选择分类">
                       <el-option v-for="lo in cateList" :label="lo.cateName" :value="lo.id" :key="lo.id"/>
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="10">
-                  <el-form-item label-width="80px" label="学校类别:" prop="typeId" class="postInfo-container-item">
+                  <el-form-item label="学校类别:" prop="typeId" class="postInfo-container-item">
                     <el-select v-model="temp.typeId" placeholder="请选择分类">
                       <el-option v-for="lo in cateList" :label="lo.cateName" :value="lo.id" :key="lo.id"/>
                     </el-select>
@@ -67,7 +67,7 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="80px" label="是否推荐:" prop="isRecommend" class="postInfo-container-item">
+                  <el-form-item label="是否推荐:" prop="isRecommend" class="postInfo-container-item">
                     <el-radio-group v-model="temp.isRecommend" size="medium">
                       <el-radio border label="1">推荐</el-radio>
                       <el-radio border label="2">不推荐</el-radio>
@@ -75,7 +75,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="10">
-                  <el-form-item label-width="80px" label="学校状态:" prop="status" class="postInfo-container-item">
+                  <el-form-item label="学校状态:" prop="status" class="postInfo-container-item">
                     <el-radio-group v-model="temp.status" size="medium">
                       <el-radio border label="2">待审核</el-radio>
                       <el-radio border label="1">发布</el-radio>
@@ -256,6 +256,7 @@ export default {
       margin-bottom: 10px;
       .postInfo-container-item {
         float: left;
+        width: 300px;
       }
     }
     .editor-container {

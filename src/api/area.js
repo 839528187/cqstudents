@@ -29,3 +29,10 @@ export function parent() {
     method: 'get'
   })
 }
+
+export function search() {
+  return request({
+    url: '/area/search',
+    method: 'get'
+  })
+}
