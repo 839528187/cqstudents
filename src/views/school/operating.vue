@@ -153,8 +153,8 @@ export default {
         logo: '',
         schoolLevel: '',
         schoolNature: '',
-        isRecommend: '',
-        status: '',
+        isRecommend: '1',
+        status: '2',
         schoolProfile: ''
       },
 
