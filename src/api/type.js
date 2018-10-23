@@ -37,3 +37,10 @@ export function deletes(id) {
     method: 'delete'
   })
 }
+
+export function typeSearch() {
+  return request({
+    url: '/type/search',
+    method: 'get'
+  })
+}

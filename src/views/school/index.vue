@@ -5,6 +5,7 @@
       <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入学校名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @blur="getList" @clear="getList"/>
       <!-- <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button> -->
       <el-cascader :options="area" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" change-on-select clearable placeholder="地区搜索-可以搜索地区名称" filterable @change="getList"/>
+      <el-cascader :options="types" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" change-on-select clearable placeholder="类型搜索-可以搜索类型名称" filterable @change="changetypes"/>
     </div>
 
     <div style="margin-bottom:1px"/>
@@ -80,6 +81,7 @@
 <script>
 import { list } from '@/api/school'
 import { search } from '@/api/area'
+import { typeSearch } from '@/api/type'
 export default {
   data() {
     return {
@@ -89,6 +91,7 @@ export default {
       listLoading: true,
       dialogFormVisible: false,
       area: [],
+      types: [],
       dialogStatus: '',
       listQuery: {
         page: 1,
@@ -117,13 +120,13 @@ export default {
   created() {
     this.getList()
     this.getAreaLists()
+    this.getTypeLists()
   },
 
   methods: {
 
     // 获取列表
     getList(val) {
-      console.log(val)
       if (val) {
         this.listQuery.areaId = val[val.length - 1]
       }
@@ -147,6 +150,18 @@ export default {
       })
     },
 
+    // 类型筛选
+    getTypeLists() {
+      typeSearch().then(data => {
+        this.types = data.data
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    changetypes(val) {
+      this.listQuery.typeId = val[val.length - 1]
+      this.getList()
+    },
     createSchool() {
       this.$router.push('/school/create')
     },
