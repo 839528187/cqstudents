@@ -25,16 +25,12 @@
               <el-row>
                 <el-col :span="8">
                   <el-form-item label="所属地区:" prop="areaId" class="postInfo-container-item">
-                    <el-select v-model="temp.areaId" placeholder="请选择分类">
-                      <el-option v-for="lo in cateList" :label="lo.cateName" :value="lo.id" :key="lo.id"/>
-                    </el-select>
+                    <el-cascader :options="area" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="地区搜索-可以搜索地区名称" filterable/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="10">
                   <el-form-item label="学校类别:" prop="typeId" class="postInfo-container-item">
-                    <el-select v-model="temp.typeId" placeholder="请选择分类">
-                      <el-option v-for="lo in cateList" :label="lo.cateName" :value="lo.id" :key="lo.id"/>
-                    </el-select>
+                    <el-cascader :options="types" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="类型搜索-可以搜索类型名称" filterable/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -43,7 +39,7 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="18">
-                  <el-form-item label="办学层次">
+                  <el-form-item label="办学层次" prop="schoolLevel">
                     <el-radio-group v-model="temp.schoolLevel" size="medium">
                       <el-radio border label="1">国家示范校</el-radio>
                       <el-radio border label="2">国家级重点</el-radio>
@@ -53,7 +49,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="18">
-                  <el-form-item label="办学性质">
+                  <el-form-item label="办学性质" prop="schoolNature">
                     <el-radio-group v-model="temp.schoolNature" size="medium">
                       <el-radio border label="1">公办</el-radio>
                       <el-radio border label="2">民办</el-radio>
@@ -98,7 +94,7 @@
             </el-form-item>
 
             <div class="editor-container">
-              <Tinymce ref="editor" :height="400" v-model="temp.content" />
+              <Tinymce ref="editor" :height="400" v-model="temp.schoolProfile" />
             </div>
 
           </el-col>
@@ -109,8 +105,8 @@
 </template>
 
 <script>
-// import { create, findone, update } from '@/api/foodNews'
-// import { list } from '@/api/category'
+import { search } from '@/api/area'
+import { typeSearch } from '@/api/type'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import MDinput from '@/components/MDinput'
 import Tinymce from '@/components/Tinymce'
@@ -145,6 +141,8 @@ export default {
     return {
       postForm: Object.assign({}, defaultForm),
       loading: false,
+      types: [],
+      area: [],
       dialogStatus: '',
       temp: {
         areaId: '',
@@ -169,25 +167,32 @@ export default {
       },
 
       rules: {
-        title: [{ required: true, message: '标题不能为空', trigger: 'change' }],
-        cateName: [
-          { required: true, message: '分类必须选择', trigger: 'change' }
+        schoolName: [{ required: true, message: '学校名称不能为空', trigger: 'change' }],
+        areaId: [
+          { required: true, message: '地区不能为空', trigger: 'change' }
         ],
-        author: [
-          { required: true, message: '作者不能为空', trigger: 'change' }
+        typeId: [
+          { required: true, message: '学校类型不能为空', trigger: 'change' }
         ],
-        keywords: [
-          { required: true, message: '关键词不能为空', trigger: 'change' }
+        schoolLevel: [
+          { required: true, message: '办学层次不能为空', trigger: 'change' }
         ],
-        description: [
-          { required: true, message: '描述不能为空', trigger: 'change' }
+        schoolNature: [
+          { required: true, message: '办学性质不能为空', trigger: 'change' }
+        ],
+        logo: [
+          { required: true, message: '学校logo不能为空', trigger: 'change' }
+        ],
+        schoolProfile: [
+          { required: true, message: '学校简介不能为空', trigger: 'change' }
         ]
       }
     }
   },
 
   created() {
-    this.getCateList()
+    this.getAreaLists()
+    this.getTypeLists()
     if (this.$route.params.id != null) {
       this.getFindOne()
     }
@@ -214,6 +219,24 @@ export default {
 
     listSchool() {
       this.$router.push('/school/list')
+    },
+
+    // 地区筛选
+    getAreaLists() {
+      search().then(data => {
+        this.area = data.data
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+
+    // 类型筛选
+    getTypeLists() {
+      typeSearch().then(data => {
+        this.types = data.data
+      }).catch(e => {
+        console.log(e)
+      })
     }
   }
 }
@@ -256,7 +279,7 @@ export default {
       margin-bottom: 10px;
       .postInfo-container-item {
         float: left;
-        width: 300px;
+        width: 303px;
       }
     }
     .editor-container {
