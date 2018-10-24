@@ -112,10 +112,10 @@ export const constantRouterMap = [
         meta: { title: '编辑资讯', icon: 'list' }
       },
       {
-        path: '/foodNews/create',
+        path: '/category/index',
         name: '资讯分类',
         // hidden: true,
-        component: () => import('@/views/foodNews/create'),
+        component: () => import('@/views/category/index'),
         meta: { title: '资讯分类', icon: 'list' }
       }
     ]

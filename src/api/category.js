@@ -2,31 +2,38 @@ import request from '@/utils/request'
 
 export function list(query) {
   return request({
-    url: '/cate',
+    url: '/category',
     method: 'get',
     params: query
   })
 }
 
-// export function create(data) {
-//   return request({
-//     url: '/admin',
-//     method: 'post',
-//     data
-//   })
-// }
+export function create(data) {
+  return request({
+    url: '/category',
+    method: 'post',
+    data
+  })
+}
 
-// export function update(data, id) {
-//   return request({
-//     url: '/admin/' + id,
-//     method: 'put',
-//     data
-//   })
-// }
+export function update(data, id) {
+  return request({
+    url: '/category/' + id,
+    method: 'put',
+    data
+  })
+}
 
-// export function logout() {
-//   return request({
-//     url: '/user/logout',
-//     method: 'post'
-//   })
-// }
+export function parentSearch() {
+  return request({
+    url: '/category/parent',
+    method: 'get'
+  })
+}
+
+export function deletes(id) {
+  return request({
+    url: '/category/' + id,
+    method: 'delete'
+  })
+}
