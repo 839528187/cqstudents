@@ -85,23 +85,23 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/foodNews',
+    path: '/news',
     component: Layout,
-    redirect: '/foodNews/list',
+    redirect: '/news/list',
     name: '资讯管理',
     meta: { title: '资讯管理', icon: 'news' },
     children: [
       {
-        path: '/foodNews/list',
+        path: '/news/list',
         name: '资讯列表',
-        component: () => import('@/views/foodNews/index'),
+        component: () => import('@/views/news/index'),
         meta: { title: '资讯列表', icon: 'lists' }
       },
       {
-        path: '/foodNews/create',
+        path: '/news/operation',
         name: '添加资讯',
         hidden: true,
-        component: () => import('@/views/foodNews/create'),
+        component: () => import('@/views/news/operation'),
         meta: { title: '添加资讯', icon: 'list' }
       },
       {

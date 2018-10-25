@@ -7,3 +7,11 @@ export function list(query) {
     params: query
   })
 }
+
+export function schoolSearch(query) {
+  return request({
+    url: '/school/search',
+    method: 'get',
+    params: query
+  })
+}

@@ -37,3 +37,10 @@ export function deletes(id) {
     method: 'delete'
   })
 }
+
+export function newsSearch() {
+  return request({
+    url: '/category/search',
+    method: 'get'
+  })
+}
