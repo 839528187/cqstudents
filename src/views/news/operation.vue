@@ -124,7 +124,7 @@ export default {
       schoolSearchName: '',
       temp: {
         id: '',
-        schoolId: '',
+        schoolId: '0',
         categoryId: '',
         title: '',
         keywords: '',
