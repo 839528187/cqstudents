@@ -55,7 +55,7 @@
         <template slot-scope="scope">
           <el-row>
             <el-button type="text" circle @click="updateNews(scope.row.id)">编辑</el-button>
-            <el-button type="text" circle>删除</el-button>
+            <el-button type="text" circle @click="changeDelete(scope.row.id)">删除</el-button>
           </el-row>
         </template>
       </el-table-column>
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { list } from '@/api/news'
+import { list, deletes } from '@/api/news'
 import { schoolSearch } from '@/api/school'
 import { newsSearch } from '@/api/category'
 export default {
@@ -139,6 +139,32 @@ export default {
         }, 1.5 * 200)
       }).catch(() => {
 
+      })
+    },
+
+    // 删除新闻
+    changeDelete(id) {
+      this.$confirm('此操作将删除该新闻吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deletes(id).then(data => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.getList()
+          } else {
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
 

@@ -243,7 +243,7 @@ export default {
                 message: data.msg,
                 type: 'success'
               })
-              this.$router.push('/foodNews/list')
+              this.$router.push('/news/list')
             } else {
               return false
             }
