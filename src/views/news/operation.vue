@@ -3,7 +3,7 @@
     <el-form ref="newsForm" :rules="rules" :model="temp" class="form-container">
       <sticky :class-name="'sub-navbar '+postForm.status">
         <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="caozuo()">提交</el-button>
-        <el-button v-loading="loading" type="info">返回列表</el-button>
+        <el-button v-loading="loading" type="info" @click="skipNewsList">返回列表</el-button>
       </sticky>
 
       <div class="createPost-main-container">
@@ -164,6 +164,10 @@ export default {
       schoolSearch(this.schoolSearchName).then(data => {
         this.school = data.data
       })
+    },
+
+    skipNewsList() {
+      this.$router.push('/news/list')
     },
 
     // 查询分类
