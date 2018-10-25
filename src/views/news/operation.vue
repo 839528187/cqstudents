@@ -41,7 +41,7 @@
                 </el-col>
                 <el-col :span="7">
                   <el-form-item label="所属分类:" prop="categoryId" class="postInfo-container-item">
-                    <el-cascader :options="category" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="分类搜索-可以搜索分类名称" filterable @change="changeCategory"/>
+                    <el-cascader :options="category" v-model="category_check" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="分类搜索-可以搜索分类名称" filterable @change="changeCategory"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="7">
@@ -139,6 +139,7 @@ export default {
         imgUrl: '',
         url: ''
       },
+      category_check: [],
 
       rules: {
         title: [{ required: true, message: '标题不能为空', trigger: 'change' }],
@@ -151,10 +152,11 @@ export default {
     }
   },
 
-  created() {
-    this.getCategorySearch()
+  async created() {
     if (this.$route.params.id != null) {
-      this.getFindOne()
+      await this.getFindOne()
+    } else {
+      this.getCategorySearch()
     }
   },
 
@@ -174,6 +176,13 @@ export default {
     getCategorySearch() {
       newsSearch().then(data => {
         this.category = data.data
+        this.category.forEach(e => {
+          e.children.forEach(i => {
+            if (i.value === this.temp.categoryId) {
+              this.category_check = [e.value, i.value]
+            }
+          })
+        })
       })
     },
 
@@ -217,6 +226,7 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 1.5 * 200)
+        this.getCategorySearch()
       })
     },
 
