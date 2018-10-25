@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { create, findOne } from '@/api/news'
+import { create, findOne, update } from '@/api/news'
 import { schoolSearch } from '@/api/school'
 import { newsSearch } from '@/api/category'
 import Sticky from '@/components/Sticky' // 粘性header组件
@@ -227,6 +227,26 @@ export default {
           this.listLoading = false
         }, 1.5 * 200)
         this.getCategorySearch()
+      })
+    },
+
+    // 编辑新闻
+    updateData(food) {
+      this.dialogStatus = '编辑'
+      this.$refs['newsForm'].validate(valid => {
+        if (valid) {
+          update(this.temp.id, this.temp).then(data => {
+            if (data.code === 200) {
+              this.$message({
+                message: data.msg,
+                type: 'success'
+              })
+              this.$router.push('/foodNews/list')
+            } else {
+              return false
+            }
+          })
+        }
       })
     },
 

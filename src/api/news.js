@@ -23,3 +23,11 @@ export function findOne(id) {
   })
 }
 
+export function update(id, data) {
+  return request({
+    url: '/news/' + id,
+    method: 'put',
+    data
+  })
+}
+
