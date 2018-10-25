@@ -132,7 +132,8 @@ export default {
         thumb: '',
         author: '',
         centent: '',
-        imgUrl: ''
+        imgUrl: '',
+        urlThumb: ''
       },
 
       upload: {
@@ -234,6 +235,7 @@ export default {
     updateData(food) {
       this.dialogStatus = '编辑'
       this.$refs['newsForm'].validate(valid => {
+        this.temp.thumb = this.temp.urlThumb
         if (valid) {
           update(this.temp.id, this.temp).then(data => {
             if (data.code === 200) {
@@ -258,6 +260,7 @@ export default {
       this.upload.url = res.data.imgUrl
       this.temp.imgUrl = res.data.url
       this.temp.thumb = res.data.url + res.data.imgUrl
+      this.temp.urlThumb = res.data.imgUrl
       // this.upload.imgUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
