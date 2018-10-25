@@ -1,0 +1,25 @@
+import request from '@/utils/request'
+
+export function list(query) {
+  return request({
+    url: '/news',
+    method: 'get',
+    params: query
+  })
+}
+
+export function create(data) {
+  return request({
+    url: '/news',
+    method: 'post',
+    data
+  })
+}
+
+export function findOne(id) {
+  return request({
+    url: '/news/' + id,
+    method: 'get'
+  })
+}
+
