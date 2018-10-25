@@ -8,7 +8,7 @@
 
       <div class="createPost-main-container">
         <el-row>
-          <el-col :span="18">
+          <el-col :span="23">
             <el-form-item style="margin-bottom: 40px;" prop="title">
               <MDinput v-model="temp.title" :maxlength="100" value="title" name="name" required>
                 标题
@@ -39,7 +39,7 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="8">
                   <el-form-item label="所属分类:" prop="categoryId" class="postInfo-container-item">
                     <el-cascader :options="category" v-model="category_check" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="分类搜索-可以搜索分类名称" filterable @change="changeCategory"/>
                   </el-form-item>

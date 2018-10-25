@@ -73,6 +73,15 @@
           </el-select>
         </el-form-item>
 
+        <el-form-item label="是否存在下级" prop="isChild" label-width="98px">
+          <div style="margin-top: 0px">
+            <el-radio-group v-model="temp.isChild" size="small">
+              <el-radio label="1" border>存在</el-radio>
+              <el-radio label="2" border>不存在</el-radio>
+            </el-radio-group>
+          </div>
+        </el-form-item>
+
         <el-form-item label="类别名称" prop="name">
           <el-input v-model="temp.name" value="name" placeholder="类别名称"/>
         </el-form-item>
@@ -110,7 +119,8 @@ export default {
         praentId: '',
         status: '',
         createdAt: '',
-        parentName: ''
+        parentName: '',
+        isChild: '2'
       },
       rules: {
         name: [
@@ -147,6 +157,7 @@ export default {
         id: '',
         name: '',
         praentId: ''
+        // isChild:''
       }
     },
 
@@ -174,6 +185,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
+          // this.temp.isChild = isChild
           if (this.temp.praentId === '') {
             this.temp.praentId = 0
           }
@@ -207,6 +219,7 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
+          // this.temp.isChild = isChild
           update(this.temp, this.temp.id).then(data => {
             this.list.unshift(this.temp)
             this.dialogFormVisible = false
