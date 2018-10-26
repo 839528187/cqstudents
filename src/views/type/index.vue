@@ -153,17 +153,17 @@ export default {
     }
   },
 
-  created() {
-    this.getList()
+  async created() {
+    await this.getList()
     this.getParent()
   },
 
   methods: {
     // 获取列表
-    getList() {
+    async getList() {
       this.listLoading = true
-
-      list(this.listQuery).then(response => {
+      try {
+        var response = await list(this.listQuery)
         this.list = response.data.data
         this.total = response.data.pageSize
         // Just to simulate the time of the request
@@ -179,9 +179,9 @@ export default {
         setTimeout(() => {
           this.listLoading = false
         }, 1.5 * 200)
-      }).catch(() => {
-
-      })
+      } catch (error) {
+        return
+      }
     },
 
     resetTemp() {
@@ -197,8 +197,18 @@ export default {
     getParent() {
       parent().then(data => {
         data.data.unshift({ label: '顶级类别', value: 0 })
+        data.data.forEach(e => {
+          if (e.children && e.children.length > 0) {
+            e.children.forEach(i => {
+              if (i.children && i.children.length <= 0) {
+                delete i.children
+              }
+            })
+          } else {
+            delete e.children
+          }
+        })
         this.parentType = data.data
-        this.temp.praentId = 0
       }).catch(() => {
 
       })
@@ -218,7 +228,6 @@ export default {
       this.resetTemp()
       this.dialogStatus = '添加类别'
       this.dialogFormVisible = true
-      this.getParent()
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
@@ -226,10 +235,6 @@ export default {
     createData() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          // this.temp.isChild = isChild
-          if (this.temp.praentId === '') {
-            this.temp.praentId = 0
-          }
           create(this.temp).then(data => {
             this.list.unshift(this.temp)
             this.dialogFormVisible = false
@@ -250,6 +255,24 @@ export default {
 
     // 编辑类别
     handleUpdate(row) {
+      this.parentType.forEach(m => {
+        if (m.value === row.praentId) {
+          this.type_check = [m.value]
+        } else if (m.children) {
+          m.children.forEach(h => {
+            if (h.value === row.praentId) {
+              this.type_check = [m.value, h.value]
+            } else if (h.children) {
+              h.children.forEach(j => {
+                if (j.value === row.praentId) {
+                  this.type_check = [m.value, h.value, j.value]
+                }
+              })
+            }
+          })
+        }
+      })
+      console.log(this.type_check)
       this.temp = Object.assign({}, row) // copy obj
       this.temp.isChild = JSON.stringify(this.temp.isChild)
       this.dialogStatus = '编辑类别'
