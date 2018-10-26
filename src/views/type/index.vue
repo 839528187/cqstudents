@@ -177,7 +177,7 @@
 
 <script>
 import { list, parent, create, update, deletes } from '@/api/type'
-import { typeIntroduce, typeCourse, typeProspect, typeDirection } from '@/api/typeMapping'
+import { typeIntroduce, typeCourse, typeProspect, typeDirection, getOne } from '@/api/typeMapping'
 import Tinymce from '@/components/Tinymce'
 export default {
   components: { Tinymce },
@@ -317,11 +317,21 @@ export default {
       }
     },
 
+    async getFindOne(id) {
+      try {
+        var data = await getOne(id)
+        this.mapping = data.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
     // 专业介绍
     changeIntroduce(id) {
       this.introduceFormVisible = true
       this.resetTemps()
       this.mapping.typeId = id
+      this.getFindOne(id)
       this.$nextTick(() => {
         this.$refs['introduceForm'].clearValidate()
       })
@@ -348,6 +358,7 @@ export default {
       this.courseFormVisible = true
       this.resetTemps()
       this.mapping.typeId = id
+      this.getFindOne(id)
       this.$nextTick(() => {
         this.$refs['courseForm'].clearValidate()
       })
@@ -374,6 +385,7 @@ export default {
       this.prospectFormVisible = true
       this.resetTemps()
       this.mapping.typeId = id
+      this.getFindOne(id)
       this.$nextTick(() => {
         this.$refs['prospectForm'].clearValidate()
       })
@@ -400,6 +412,7 @@ export default {
       this.directionFormVisible = true
       this.resetTemps()
       this.mapping.typeId = id
+      this.getFindOne(id)
       this.$nextTick(() => {
         this.$refs['directionForm'].clearValidate()
       })

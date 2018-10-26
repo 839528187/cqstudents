@@ -31,3 +31,10 @@ export function typeDirection(data) {
     data
   })
 }
+
+export function getOne(id) {
+  return request({
+    url: '/mapping/' + id,
+    method: 'get'
+  })
+}
