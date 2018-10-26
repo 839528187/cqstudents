@@ -116,7 +116,7 @@
     <!--专业介绍-->
     <el-dialog :title="dialogStatus" :visible.sync="introduceFormVisible" style="width: 100%; margin-left: auto; margin-right: auto;">
       <el-form ref="introduceForm" :model="mapping" label-position="left" label-width="80px" style="width: 800px; margin-left:50px;">
-        <el-form-item prop="introduce">
+        <el-form-item label="专业介绍" prop="introduce">
           <div class="editor-container">
             <Tinymce ref="editor" :height="400" :with="400" v-model="mapping.introduce" style="line-height: 29px;" />
           </div>
