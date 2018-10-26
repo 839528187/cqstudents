@@ -22,7 +22,6 @@
       :key="tableKey"
       :data="list"
       border
-      fit
       highlight-current-row
       style="width: 100%;">
       <el-table-column label="id" prop="id" align="center" width="60px"/>
@@ -33,7 +32,7 @@
           {{ scope.row.status == 2 ? '停用' : '正常' }}
         </template>
       </el-table-column>
-      <el-table-column label="是否存在下级" prop="isChild" align="center">
+      <el-table-column label="是否有下级" prop="isChild" align="center">
         <template slot-scope="scope">
           {{ scope.row.isChild == 2 ? '不存在' : '存在' }}
         </template>
@@ -42,17 +41,17 @@
       <el-table-column label="操作" prop="status" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="text" circle @click="handleUpdate(scope.row,scope.row.id)">编辑</el-button>
-            <el-button type="text" circle @click="deleteData(scope.row.id)">删除</el-button>
-            <el-dropdown szie="small" style="margin-left: 10px; margin-bottom:1px;">
-              <el-button :disabled="scope.row.disableds" type="text">
+            <el-button size="small" type="text" circle @click="handleUpdate(scope.row,scope.row.id)">编辑</el-button>
+            <el-button size="small" type="text" style="margin-left: 0px; margin-bottom:1px;" circle @click="deleteData(scope.row.id)">删除</el-button>
+            <el-dropdown szie="small" style="margin-left: 0px; margin-bottom:1px;">
+              <el-button :disabled="scope.row.disableds" type="text" size="small">
                 更多<i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item type split-button @click.native="changeIntroduce(scope.row.id)">专业介绍</el-dropdown-item>
-                <el-dropdown-item divided>专业课程</el-dropdown-item>
-                <el-dropdown-item divided>就业前景</el-dropdown-item>
-                <el-dropdown-item divided> 就业方向</el-dropdown-item>
+                <el-dropdown-item type split-button divided @click.native="changeCourse(scope.row.id)">专业课程</el-dropdown-item>
+                <el-dropdown-item type split-button divided @click.native="changeProspect(scope.row.id)">就业前景</el-dropdown-item>
+                <el-dropdown-item type split-button divided @click.native="changeDirection(scope.row.id)"> 就业方向</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-row>
@@ -114,17 +113,62 @@
     </el-dialog>
 
     <!--专业介绍-->
-    <el-dialog :title="dialogStatus" :visible.sync="introduceFormVisible" style="width: 100%; margin-left: auto; margin-right: auto;">
-      <el-form ref="introduceForm" :model="mapping" label-position="left" label-width="80px" style="width: 800px; margin-left:50px;">
-        <el-form-item label="专业介绍" prop="introduce">
+    <el-dialog :visible.sync="introduceFormVisible" title="专业介绍" style="width: 100%; margin-left: auto; margin-right: auto;">
+      <el-form ref="introduceForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
+        <el-form-item prop="introduce">
           <div class="editor-container">
-            <Tinymce ref="editor" :height="400" :with="400" v-model="mapping.introduce" style="line-height: 29px;" />
+            <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.introduce" style="line-height: 29px;" />
           </div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="introduceFormVisible = false">取消</el-button>
-        <el-button type="primary">提交</el-button>
+        <el-button type="primary" @click="introduceOperation()">提交</el-button>
+      </div>
+    </el-dialog>
+
+    <!--专业课程-->
+    <el-dialog :visible.sync="courseFormVisible" title="专业课程" style="width: 100%; margin-left: auto; margin-right: auto;">
+      <el-form ref="courseForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
+        <el-form-item prop="course">
+          <div class="editor-container">
+            <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.course" style="line-height: 29px;" />
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="courseFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="courseOperation()">提交</el-button>
+      </div>
+    </el-dialog>
+
+    <!--就业前景-->
+    <el-dialog :visible.sync="prospectFormVisible" title="就业前景" style="width: 100%; margin-left: auto; margin-right: auto;">
+      <el-form ref="prospectForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
+        <el-form-item prop="prospect">
+          <div class="editor-container">
+            <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.prospect" style="line-height: 29px;" />
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="prospectFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="prospectOperation()">提交</el-button>
+      </div>
+    </el-dialog>
+
+    <!--就业方向-->
+    <el-dialog :visible.sync="directionFormVisible" title="就业方向" style="width: 100%; margin-left: auto; margin-right: auto;">
+      <el-form ref="directionForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
+        <el-form-item prop="direction">
+          <div class="editor-container">
+            <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.direction" style="line-height: 29px;" />
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="directionFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="directionOperation()">提交</el-button>
       </div>
     </el-dialog>
 
@@ -133,6 +177,7 @@
 
 <script>
 import { list, parent, create, update, deletes } from '@/api/type'
+import { typeIntroduce, typeCourse, typeProspect, typeDirection } from '@/api/typeMapping'
 import Tinymce from '@/components/Tinymce'
 export default {
   components: { Tinymce },
@@ -153,6 +198,9 @@ export default {
       dialogStatus: '',
       dialogFormVisible: false,
       introduceFormVisible: false,
+      courseFormVisible: false,
+      prospectFormVisible: false,
+      directionFormVisible: false,
       parentType: [],
       listQuery: {
         page: 1,
@@ -272,19 +320,105 @@ export default {
     // 专业介绍
     changeIntroduce(id) {
       this.introduceFormVisible = true
-      console.log(id)
       this.resetTemps()
+      this.mapping.typeId = id
       this.$nextTick(() => {
         this.$refs['introduceForm'].clearValidate()
       })
     },
 
     async introduceOperation() {
-      // try {
-      //   return
-      // } catch (error) {
-      //   console.log(error)
-      // }
+      try {
+        var data = await typeIntroduce(this.mapping)
+        this.introduceFormVisible = false
+        if (data.code === 200) {
+          this.$message({
+            type: 'success',
+            message: data.msg
+          })
+        }
+        this.getList()
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    // 专业课程
+    changeCourse(id) {
+      this.courseFormVisible = true
+      this.resetTemps()
+      this.mapping.typeId = id
+      this.$nextTick(() => {
+        this.$refs['courseForm'].clearValidate()
+      })
+    },
+
+    async courseOperation() {
+      try {
+        var data = await typeCourse(this.mapping)
+        this.courseFormVisible = false
+        if (data.code === 200) {
+          this.$message({
+            type: 'success',
+            message: data.msg
+          })
+        }
+        this.getList()
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    // 就业前景
+    changeProspect(id) {
+      this.prospectFormVisible = true
+      this.resetTemps()
+      this.mapping.typeId = id
+      this.$nextTick(() => {
+        this.$refs['prospectForm'].clearValidate()
+      })
+    },
+
+    async prospectOperation() {
+      try {
+        var data = await typeProspect(this.mapping)
+        this.prospectFormVisible = false
+        if (data.code === 200) {
+          this.$message({
+            type: 'success',
+            message: data.msg
+          })
+        }
+        this.getList()
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    // 就业方向
+    changeDirection(id) {
+      this.directionFormVisible = true
+      this.resetTemps()
+      this.mapping.typeId = id
+      this.$nextTick(() => {
+        this.$refs['directionForm'].clearValidate()
+      })
+    },
+
+    async directionOperation() {
+      try {
+        var data = await typeDirection(this.mapping)
+        this.directionFormVisible = false
+        if (data.code === 200) {
+          this.$message({
+            type: 'success',
+            message: data.msg
+          })
+        }
+        this.getList()
+      } catch (error) {
+        console.log(error)
+      }
     },
 
     // 添加类别
