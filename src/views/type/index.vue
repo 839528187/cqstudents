@@ -4,14 +4,14 @@
       <el-button size="small" type="primary" plain @click="handleCreate">添加类别</el-button>
       <el-cascader
         :options="parentType"
-        style="width: 210px; margin-left: 10px; margin-bottom:1px;"
+        style="width: 300px; margin-left: 10px; margin-bottom:1px;"
         size="small"
         change-on-select
         clearable
         placeholder="类型搜索-可以搜索类型名称"
         filterable
         @change="changeParentSecah"/>
-      <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入名称" style="width: 300px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @keyup.enter.native="getList" @clear="getList"/>
+      <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入名称" style="width: 210px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @keyup.enter.native="getList" @clear="getList"/>
       <!-- <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button> -->
     </div>
 
@@ -49,7 +49,7 @@
                 更多<i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item >专业介绍</el-dropdown-item>
+                <el-dropdown-item type split-button @click.native="changeIntroduce(scope.row.id)">专业介绍</el-dropdown-item>
                 <el-dropdown-item divided>专业课程</el-dropdown-item>
                 <el-dropdown-item divided>就业前景</el-dropdown-item>
                 <el-dropdown-item divided> 就业方向</el-dropdown-item>
@@ -113,12 +113,36 @@
       </div>
     </el-dialog>
 
+    <!--专业介绍-->
+    <el-dialog :title="dialogStatus" :visible.sync="introduceFormVisible" style="width: 100%; margin-left: auto; margin-right: auto;">
+      <el-form ref="introduceForm" :model="mapping" label-position="left" label-width="80px" style="width: 800px; margin-left:50px;">
+        <el-form-item prop="introduce">
+          <div class="editor-container">
+            <Tinymce ref="editor" :height="400" :with="400" v-model="mapping.introduce" style="line-height: 29px;" />
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="introduceFormVisible = false">取消</el-button>
+        <el-button type="primary">提交</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 import { list, parent, create, update, deletes } from '@/api/type'
+import Tinymce from '@/components/Tinymce'
 export default {
+  components: { Tinymce },
+
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       tableKey: 0,
@@ -128,6 +152,7 @@ export default {
       options: null,
       dialogStatus: '',
       dialogFormVisible: false,
+      introduceFormVisible: false,
       parentType: [],
       listQuery: {
         page: 1,
@@ -144,6 +169,16 @@ export default {
         parentName: '',
         isChild: '2'
       },
+
+      mapping: {
+        id: '',
+        typeId: '',
+        introduce: '',
+        course: '',
+        prospect: '',
+        direction: ''
+      },
+
       type_check: [],
       rules: {
         name: [
@@ -221,6 +256,35 @@ export default {
     changeParentSecah(val) {
       this.listQuery.parentId = val[val.length - 1]
       this.getList()
+    },
+
+    resetTemps() {
+      this.mapping = {
+        id: '',
+        typeId: '',
+        introduce: '',
+        course: '',
+        prospect: '',
+        direction: ''
+      }
+    },
+
+    // 专业介绍
+    changeIntroduce(id) {
+      this.introduceFormVisible = true
+      console.log(id)
+      this.resetTemps()
+      this.$nextTick(() => {
+        this.$refs['introduceForm'].clearValidate()
+      })
+    },
+
+    async introduceOperation() {
+      // try {
+      //   return
+      // } catch (error) {
+      //   console.log(error)
+      // }
     },
 
     // 添加类别
@@ -344,3 +408,39 @@ export default {
 
 }
 </script>
+
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import "src/styles/mixin.scss";
+.createPost-container {
+  position: relative;
+  .createPost-main-container {
+    padding: 40px 45px 20px 50px;
+    .postInfo-container {
+      position: relative;
+      @include clearfix;
+      margin-bottom: 10px;
+      .postInfo-container-item {
+        float: left;
+        width: 303px;
+      }
+    }
+    .editor-container {
+      min-height: 500px;
+      margin: 0 0 30px;
+      .editor-upload-btn-container {
+        text-align: right;
+        margin-right: 10px;
+        .editor-upload-btn {
+          display: inline-block;
+        }
+      }
+    }
+  }
+  .word-counter {
+    width: 40px;
+    position: absolute;
+    right: -10px;
+    top: 0px;
+  }
+}
+</style>
