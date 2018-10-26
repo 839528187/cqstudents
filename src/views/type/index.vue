@@ -2,14 +2,16 @@
   <div class="app-container">
     <div class="filter-container">
       <el-button size="small" type="primary" plain @click="handleCreate">添加类别</el-button>
-      <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @keyup.enter.native="getList" @clear="getList"/>
-      <el-select v-model="listQuery.parentId" clearable size="small" placeholder="请选择" style="width: 200px; margin-left: 10px; margin-bottom:1px;" @clear="getList" @change="getList">
-        <el-option
-          v-for="item in options"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"/>
-      </el-select>
+      <el-cascader
+        :options="parentType"
+        style="width: 210px; margin-left: 10px; margin-bottom:1px;"
+        size="small"
+        change-on-select
+        clearable
+        placeholder="类型搜索-可以搜索类型名称"
+        filterable
+        @change="changeParentSecah"/>
+      <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入名称" style="width: 300px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @keyup.enter.native="getList" @clear="getList"/>
       <!-- <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button> -->
     </div>
 
@@ -31,12 +33,28 @@
           {{ scope.row.status == 2 ? '停用' : '正常' }}
         </template>
       </el-table-column>
+      <el-table-column label="是否存在下级" prop="isChild" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.isChild == 2 ? '不存在' : '存在' }}
+        </template>
+      </el-table-column>
       <el-table-column label="添加时间" prop="createdAt" align="center"/>
       <el-table-column label="操作" prop="status" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-row>
             <el-button type="text" circle @click="handleUpdate(scope.row,scope.row.id)">编辑</el-button>
             <el-button type="text" circle @click="deleteData(scope.row.id)">删除</el-button>
+            <el-dropdown szie="small" style="margin-left: 10px; margin-bottom:1px;">
+              <el-button :disabled="scope.row.disableds" type="text">
+                更多<i class="el-icon-arrow-down el-icon--right"/>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item >专业介绍</el-dropdown-item>
+                <el-dropdown-item divided>专业课程</el-dropdown-item>
+                <el-dropdown-item divided>就业前景</el-dropdown-item>
+                <el-dropdown-item divided> 就业方向</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </el-row>
         </template>
       </el-table-column>
@@ -64,20 +82,23 @@
     <el-dialog :title="dialogStatus" :visible.sync="dialogFormVisible" style="width: 1110px; margin-left: auto; margin-right: auto;">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
         <el-form-item label="上级类别" prop="praentId">
-          <el-select v-model="temp.praentId" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"/>
-          </el-select>
+          <el-cascader
+            :options="parentType"
+            v-model="type_check"
+            style="width: 300px; margin-left: 10px; margin-bottom:1px;"
+            size="small"
+            change-on-select
+            clearable
+            placeholder="类型搜索-可以搜索类型名称"
+            filterable
+            @change="changeParentType"/>
         </el-form-item>
 
         <el-form-item label="是否存在下级" prop="isChild" label-width="98px">
           <div style="margin-top: 0px">
             <el-radio-group v-model="temp.isChild" size="small">
-              <el-radio label="1" border>存在</el-radio>
-              <el-radio label="2" border>不存在</el-radio>
+              <el-radio border label="1">存在</el-radio>
+              <el-radio border label="2">不存在</el-radio>
             </el-radio-group>
           </div>
         </el-form-item>
@@ -107,6 +128,7 @@ export default {
       options: null,
       dialogStatus: '',
       dialogFormVisible: false,
+      parentType: [],
       listQuery: {
         page: 1,
         limit: 10,
@@ -122,6 +144,7 @@ export default {
         parentName: '',
         isChild: '2'
       },
+      type_check: [],
       rules: {
         name: [
           { required: true, message: '地区名称不能为空', trigger: 'change' }
@@ -144,6 +167,15 @@ export default {
         this.list = response.data.data
         this.total = response.data.pageSize
         // Just to simulate the time of the request
+        if (this.list != null && this.list.length > 0) {
+          this.list.forEach(e => {
+            if (e.isChild === 2) {
+              e.disableds = false
+            } else {
+              e.disableds = true
+            }
+          })
+        }
         setTimeout(() => {
           this.listLoading = false
         }, 1.5 * 200)
@@ -156,20 +188,29 @@ export default {
       this.temp = {
         id: '',
         name: '',
-        praentId: ''
-        // isChild:''
+        praentId: '',
+        isChild: '2'
       }
     },
 
     // 查询所有父级学校类别
     getParent() {
       parent().then(data => {
-        data.data.unshift({ name: '顶级分类', id: 0 })
-        this.options = data.data
+        data.data.unshift({ label: '顶级类别', value: 0 })
+        this.parentType = data.data
         this.temp.praentId = 0
       }).catch(() => {
 
       })
+    },
+
+    changeParentType(val) {
+      this.temp.praentId = val[val.length - 1]
+    },
+
+    changeParentSecah(val) {
+      this.listQuery.parentId = val[val.length - 1]
+      this.getList()
     },
 
     // 添加类别
@@ -210,6 +251,7 @@ export default {
     // 编辑类别
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
+      this.temp.isChild = JSON.stringify(this.temp.isChild)
       this.dialogStatus = '编辑类别'
       this.dialogFormVisible = true
       this.$nextTick(() => {
