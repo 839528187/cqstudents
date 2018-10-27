@@ -207,7 +207,7 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log(res, file)
       this.upload.url = res.data.imgUrl
-      this.temp.imgUrl = res.data.url
+      this.temp.imgUrl = res.data.imgUrl
       this.temp.logo = res.data.url + res.data.imgUrl
       // this.upload.imgUrl = URL.createObjectURL(file.raw);
     },
