@@ -41,13 +41,13 @@
         <template slot-scope="scope">
           <el-row>
             <el-button size="small" type="text" @click="updateSchool(scope.row.id)">编辑</el-button>
-            <el-button size="small" type="text">删除</el-button>
+            <el-button size="small" type="text" @click="changeDelete(scope.row.id)">删除</el-button>
             <el-dropdown style="margin-left: 10px; margin-bottom:1px;">
               <el-button type="text" size="small">
                 更多<i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item size="small">招生专业</el-dropdown-item>
+                <el-dropdown-item size="small" @click.native="milieu(scope.row.id)">招生专业</el-dropdown-item>
                 <el-dropdown-item divided size="small">校园环境</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { list } from '@/api/school'
+import { list, deletes } from '@/api/school'
 import { search } from '@/api/area'
 import { typeSearch } from '@/api/type'
 export default {
@@ -148,6 +148,36 @@ export default {
       }).catch(e => {
         console.log(e)
       })
+    },
+
+    changeDelete(id) {
+      this.$confirm('此操作将删除该学校吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deletes(id).then(data => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.getList()
+          } else {
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+
+    // 学校环境
+    milieu(id) {
+      this.$router.push('/school/milieu/' + id)
     },
 
     // 学校列表搜索栏使用学校类型筛选

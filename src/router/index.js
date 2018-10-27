@@ -73,14 +73,14 @@ export const constantRouterMap = [
         // hidden: true,
         component: () => import('@/views/type/index'),
         meta: { title: '学校类别', icon: 'cate' }
+      },
+      {
+        path: '/school/milieu/:id',
+        name: '学校环境',
+        hidden: true,
+        component: () => import('@/views/milieus/index'),
+        meta: { title: '学校环境', icon: 'school' }
       }
-      // {
-      //   path: '/school/category',
-      //   name: '学校分类',
-      //   // hidden: true,
-      //   component: () => import('@/views/type/index'),
-      //   meta: { title: '学校分类', icon: 'cate' }
-      // }
     ]
   },
 

@@ -38,3 +38,10 @@ export function update(id, data) {
     data
   })
 }
+
+export function deletes(id) {
+  return request({
+    url: '/school/' + id,
+    method: 'delete'
+  })
+}
