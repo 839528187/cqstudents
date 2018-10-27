@@ -11,7 +11,7 @@
         placeholder="类型搜索-可以搜索类型名称"
         filterable
         @change="changeParentSecah"/>
-      <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入名称" style="width: 210px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @keyup.enter.native="getList" @clear="getList"/>
+      <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入名称" style="width: 210px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @blur="getList" @clear="getList"/>
       <!-- <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button> -->
     </div>
 
@@ -93,11 +93,11 @@
             @change="changeParentType"/>
         </el-form-item>
 
-        <el-form-item label="是否存在下级" prop="isChild" label-width="98px">
+        <el-form-item label="是否有下级" prop="isChild" label-width="98px">
           <div style="margin-top: 0px">
             <el-radio-group v-model="temp.isChild" size="small">
-              <el-radio border label="1">存在</el-radio>
-              <el-radio border label="2">不存在</el-radio>
+              <el-radio border label="1">有</el-radio>
+              <el-radio border label="2">没有</el-radio>
             </el-radio-group>
           </div>
         </el-form-item>
@@ -329,9 +329,9 @@ export default {
     // 专业介绍
     changeIntroduce(id) {
       this.introduceFormVisible = true
+      this.getFindOne(id)
       this.resetTemps()
       this.mapping.typeId = id
-      this.getFindOne(id)
       this.$nextTick(() => {
         this.$refs['introduceForm'].clearValidate()
       })
@@ -356,9 +356,9 @@ export default {
     // 专业课程
     changeCourse(id) {
       this.courseFormVisible = true
+      this.getFindOne(id)
       this.resetTemps()
       this.mapping.typeId = id
-      this.getFindOne(id)
       this.$nextTick(() => {
         this.$refs['courseForm'].clearValidate()
       })
@@ -383,9 +383,9 @@ export default {
     // 就业前景
     changeProspect(id) {
       this.prospectFormVisible = true
+      this.getFindOne(id)
       this.resetTemps()
       this.mapping.typeId = id
-      this.getFindOne(id)
       this.$nextTick(() => {
         this.$refs['prospectForm'].clearValidate()
       })
@@ -410,9 +410,9 @@ export default {
     // 就业方向
     changeDirection(id) {
       this.directionFormVisible = true
+      this.getFindOne(id)
       this.resetTemps()
       this.mapping.typeId = id
-      this.getFindOne(id)
       this.$nextTick(() => {
         this.$refs['directionForm'].clearValidate()
       })
