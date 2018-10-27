@@ -113,64 +113,72 @@
     </el-dialog>
 
     <!--专业介绍-->
-    <el-dialog :visible.sync="introduceFormVisible" title="专业介绍" style="width: 100%; margin-left: auto; margin-right: auto;">
-      <el-form ref="introduceForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
-        <el-form-item prop="introduce">
-          <div class="editor-container">
-            <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.introduce" style="line-height: 29px;" />
-          </div>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="ChangeCancel">取消</el-button>
-        <el-button type="primary" @click="introduceOperation()">提交</el-button>
-      </div>
-    </el-dialog>
+    <div v-if="introduceFormVisible">
+      <el-dialog :visible.sync="introduceFormVisible" title="专业介绍" style="width: 100%; margin-left: auto; margin-right: auto;">
+        <el-form ref="introduceForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
+          <el-form-item prop="introduce">
+            <div class="editor-container">
+              <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.introduce" style="line-height: 29px;" />
+            </div>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="ChangeCancel">取消</el-button>
+          <el-button type="primary" @click="introduceOperation()">提交</el-button>
+        </div>
+      </el-dialog>
+    </div>
 
     <!--专业课程-->
-    <el-dialog :visible.sync="courseFormVisible" title="专业课程" style="width: 100%; margin-left: auto; margin-right: auto;">
-      <el-form ref="courseForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
-        <el-form-item prop="course">
-          <div class="editor-container">
-            <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.course" style="line-height: 29px;" />
-          </div>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="ChangeCancel">取消</el-button>
-        <el-button type="primary" @click="courseOperation()">提交</el-button>
-      </div>
-    </el-dialog>
+    <div v-if="courseFormVisible">
+      <el-dialog :visible.sync="courseFormVisible" title="专业课程" style="width: 100%; margin-left: auto; margin-right: auto;">
+        <el-form ref="courseForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
+          <el-form-item prop="course">
+            <div class="editor-container">
+              <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.course" style="line-height: 29px;" />
+            </div>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="ChangeCancel">取消</el-button>
+          <el-button type="primary" @click="courseOperation()">提交</el-button>
+        </div>
+      </el-dialog>
+    </div>
 
     <!--就业前景-->
-    <el-dialog :visible.sync="prospectFormVisible" title="就业前景" style="width: 100%; margin-left: auto; margin-right: auto;">
-      <el-form ref="prospectForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
-        <el-form-item prop="prospect">
-          <div class="editor-container">
-            <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.prospect" style="line-height: 29px;" />
-          </div>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="ChangeCancel">取消</el-button>
-        <el-button type="primary" @click="prospectOperation()">提交</el-button>
-      </div>
-    </el-dialog>
+    <div v-if="prospectFormVisible">
+      <el-dialog :visible.sync="prospectFormVisible" title="就业前景" style="width: 100%; margin-left: auto; margin-right: auto;">
+        <el-form ref="prospectForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
+          <el-form-item prop="prospect">
+            <div class="editor-container">
+              <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.prospect" style="line-height: 29px;" />
+            </div>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="ChangeCancel">取消</el-button>
+          <el-button type="primary" @click="prospectOperation()">提交</el-button>
+        </div>
+      </el-dialog>
+    </div>
 
     <!--就业方向-->
-    <el-dialog :visible.sync="directionFormVisible" title="就业方向" style="width: 100%; margin-left: auto; margin-right: auto;">
-      <el-form ref="directionForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
-        <el-form-item prop="direction">
-          <div class="editor-container">
-            <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.direction" style="line-height: 29px;" />
-          </div>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="ChangeCancel">取消</el-button>
-        <el-button type="primary" @click="directionOperation()">提交</el-button>
-      </div>
-    </el-dialog>
+    <div v-if="directionFormVisible">
+      <el-dialog :visible.sync="directionFormVisible" title="就业方向" style="width: 100%; margin-left: auto; margin-right: auto;">
+        <el-form ref="directionForm" :model="mapping" label-position="left" label-width="0px" style="width: 90%; margin-left:50px;">
+          <el-form-item prop="direction">
+            <div class="editor-container">
+              <Tinymce ref="editor" :height="200" :with="200" v-model="mapping.direction" style="line-height: 29px;" />
+            </div>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="ChangeCancel">取消</el-button>
+          <el-button type="primary" @click="directionOperation()">提交</el-button>
+        </div>
+      </el-dialog>
+    </div>
 
   </div>
 </template>
