@@ -34,7 +34,7 @@
       </el-table-column>
       <el-table-column label="是否有下级" prop="isChild" align="center">
         <template slot-scope="scope">
-          {{ scope.row.isChild == 2 ? '不存在' : '存在' }}
+          {{ scope.row.isChild == 2 ? '没有' : '有' }}
         </template>
       </el-table-column>
       <el-table-column label="添加时间" prop="createdAt" align="center"/>
@@ -122,7 +122,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="introduceFormVisible = false">取消</el-button>
+        <el-button @click="ChangeCancel">取消</el-button>
         <el-button type="primary" @click="introduceOperation()">提交</el-button>
       </div>
     </el-dialog>
@@ -137,7 +137,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="courseFormVisible = false">取消</el-button>
+        <el-button @click="ChangeCancel">取消</el-button>
         <el-button type="primary" @click="courseOperation()">提交</el-button>
       </div>
     </el-dialog>
@@ -152,7 +152,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="prospectFormVisible = false">取消</el-button>
+        <el-button @click="ChangeCancel">取消</el-button>
         <el-button type="primary" @click="prospectOperation()">提交</el-button>
       </div>
     </el-dialog>
@@ -167,7 +167,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="directionFormVisible = false">取消</el-button>
+        <el-button @click="ChangeCancel">取消</el-button>
         <el-button type="primary" @click="directionOperation()">提交</el-button>
       </div>
     </el-dialog>
@@ -317,6 +317,11 @@ export default {
       }
     },
 
+    ChangeCancel() {
+      this.introduceFormVisible = false
+      this.resetTemps()
+    },
+
     async getFindOne(id) {
       try {
         var data = await getOne(id)
@@ -328,10 +333,9 @@ export default {
 
     // 专业介绍
     changeIntroduce(id) {
-      this.introduceFormVisible = true
       this.getFindOne(id)
-      this.resetTemps()
       this.mapping.typeId = id
+      this.introduceFormVisible = true
       this.$nextTick(() => {
         this.$refs['introduceForm'].clearValidate()
       })
@@ -355,10 +359,9 @@ export default {
 
     // 专业课程
     changeCourse(id) {
-      this.courseFormVisible = true
       this.getFindOne(id)
-      this.resetTemps()
       this.mapping.typeId = id
+      this.courseFormVisible = true
       this.$nextTick(() => {
         this.$refs['courseForm'].clearValidate()
       })
@@ -382,10 +385,9 @@ export default {
 
     // 就业前景
     changeProspect(id) {
-      this.prospectFormVisible = true
       this.getFindOne(id)
-      this.resetTemps()
       this.mapping.typeId = id
+      this.prospectFormVisible = true
       this.$nextTick(() => {
         this.$refs['prospectForm'].clearValidate()
       })
@@ -409,10 +411,9 @@ export default {
 
     // 就业方向
     changeDirection(id) {
-      this.directionFormVisible = true
       this.getFindOne(id)
-      this.resetTemps()
       this.mapping.typeId = id
+      this.directionFormVisible = true
       this.$nextTick(() => {
         this.$refs['directionForm'].clearValidate()
       })
@@ -483,7 +484,6 @@ export default {
           })
         }
       })
-      console.log(this.type_check)
       this.temp = Object.assign({}, row) // copy obj
       this.temp.isChild = JSON.stringify(this.temp.isChild)
       this.dialogStatus = '编辑类别'
