@@ -5,7 +5,7 @@
       <el-input v-model="listQuery.keyword" clearable size="small" placeholder="请输入学校名称" style="width: 200px; margin-left: 10px; margin-bottom:1px;" class="filter-item" @blur="getList" @clear="getList"/>
       <!-- <el-button size="small" type="primary" style="margin-left: 10px; margin-bottom:1px;" plain @click="getList">搜索</el-button> -->
       <el-cascader :options="area" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" change-on-select clearable placeholder="地区搜索-可以搜索地区名称" filterable @change="getList"/>
-      <el-cascader :options="types" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" change-on-select clearable placeholder="类型搜索-可以搜索类型名称" filterable @change="changetypes"/>
+      <el-cascader :options="types" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="类型搜索-可以搜索类型名称" filterable @change="changetypes"/>
     </div>
 
     <div style="margin-bottom:1px"/>
@@ -40,15 +40,15 @@
       <el-table-column label="操作" prop="status" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="text" @click="updateSchool(scope.row.id)">编辑</el-button>
-            <el-button type="text">删除</el-button>
+            <el-button size="small" type="text" @click="updateSchool(scope.row.id)">编辑</el-button>
+            <el-button size="small" type="text">删除</el-button>
             <el-dropdown style="margin-left: 10px; margin-bottom:1px;">
               <el-button type="text" size="small">
                 更多<i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>简介章程</el-dropdown-item>
-                <el-dropdown-item>校园环境</el-dropdown-item>
+                <el-dropdown-item size="small">招生专业</el-dropdown-item>
+                <el-dropdown-item divided size="small">校园环境</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-row>
@@ -120,7 +120,7 @@ export default {
   created() {
     this.getList()
     this.getAreaLists()
-    this.getTypeLists()
+    this.getTypeList()
   },
 
   methods: {
@@ -150,14 +150,33 @@ export default {
       })
     },
 
-    // 类型筛选
-    getTypeLists() {
-      typeSearch().then(data => {
+    // 学校列表搜索栏使用学校类型筛选
+    async getTypeList() {
+      try {
+        var data = await typeSearch()
+        data.data.forEach(e => {
+          if (e.children && e.children.length > 0) {
+            e.children.forEach(i => {
+              if (i.children && i.children.length > 0) {
+                i.children.forEach(k => {
+                  if (k.children && k.children.length <= 0) {
+                    delete k.children
+                  }
+                })
+              } else {
+                delete i.children
+              }
+            })
+          } else {
+            delete e.children
+          }
+        })
         this.types = data.data
-      }).catch(e => {
-        console.log(e)
-      })
+      } catch (error) {
+        console.log(error)
+      }
     },
+
     changetypes(val) {
       this.listQuery.typeId = val[val.length - 1]
       this.getList()

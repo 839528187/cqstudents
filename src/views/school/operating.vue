@@ -14,7 +14,7 @@
 
       <div class="createPost-main-container">
         <el-row>
-          <el-col :span="18">
+          <el-col :span="20">
             <el-form-item style="margin-bottom: 40px;" prop="schoolName">
               <MDinput v-model="temp.schoolName" :maxlength="100" value="schoolName" name="name" required>
                 学校名称
@@ -28,7 +28,7 @@
                     <el-cascader :options="area" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="地区搜索-可以搜索地区名称" filterable/>
                   </el-form-item>
                 </el-col>
-                <el-col :span="10">
+                <el-col :span="8">
                   <el-form-item label="学校类别:" prop="typeId" class="postInfo-container-item">
                     <el-cascader :options="types" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="类型搜索-可以搜索类型名称" filterable/>
                   </el-form-item>
@@ -192,7 +192,7 @@ export default {
 
   created() {
     this.getAreaLists()
-    this.getTypeLists()
+    this.getTypeList()
     if (this.$route.params.id != null) {
       this.getFindOne()
     }
@@ -200,22 +200,21 @@ export default {
 
   // 方法
   methods: {
-    // handleAvatarSuccess(res, file) {
-    //   console.log(res, file)
-    //   this.upload.url = res.data.imgUrl
-    //   this.temp.imgUrl = res.data.url
-    //   this.temp.thumb = res.data.url + res.data.imgUrl
-    //   const location = 'school'
-    //   // this.upload.imgUrl = URL.createObjectURL(file.raw);
-    // },
-    // beforeAvatarUpload(file) {
-    //   const isJPG = file.type === 'image/jpeg'
-    //   const isLt2M = file.size / 1024 / 1024 < 2
-    //   if (!isLt2M) {
-    //     this.$msg.error('上传头像图片大小不能超过 2MB!')
-    //   }
-    //   return isLt2M
-    // },
+    handleAvatarSuccess(res, file) {
+      console.log(res, file)
+      this.upload.url = res.data.imgUrl
+      this.temp.imgUrl = res.data.url
+      this.temp.thumb = res.data.url + res.data.imgUrl
+      // this.upload.imgUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      // const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$msg.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isLt2M
+    },
 
     listSchool() {
       this.$router.push('/school/list')
@@ -231,12 +230,30 @@ export default {
     },
 
     // 类型筛选
-    getTypeLists() {
-      typeSearch().then(data => {
+    async getTypeList() {
+      try {
+        var data = await typeSearch()
+        data.data.forEach(e => {
+          if (e.children && e.children.length > 0) {
+            e.children.forEach(i => {
+              if (i.children && i.children.length > 0) {
+                i.children.forEach(k => {
+                  if (k.children && k.children.length <= 0) {
+                    delete k.children
+                  }
+                })
+              } else {
+                delete i.children
+              }
+            })
+          } else {
+            delete e.children
+          }
+        })
         this.types = data.data
-      }).catch(e => {
-        console.log(e)
-      })
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
