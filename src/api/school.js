@@ -15,3 +15,26 @@ export function schoolSearch(query) {
     params: query
   })
 }
+
+export function create(data) {
+  return request({
+    url: '/school',
+    method: 'post',
+    data
+  })
+}
+
+export function getOne(id) {
+  return request({
+    url: '/school/' + id,
+    method: 'get'
+  })
+}
+
+export function update(id, data) {
+  return request({
+    url: '/school/' + id,
+    method: 'put',
+    data
+  })
+}

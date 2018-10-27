@@ -6,7 +6,7 @@
         <!-- <CommentDropdown v-model="postForm.comment_disabled" />
         <PlatformDropdown v-model="postForm.platforms" />-->
         <!-- <SourceUrlDropdown v-model="postForm.source_uri" />  -->
-        <el-button v-loading="loading" style="margin-left: 10px;" type="success">提交
+        <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="caozuo()">提交
         </el-button>
         <!-- <el-button v-loading="loading" type="warning">草稿箱</el-button> -->
         <el-button v-loading="loading" type="info" @click="listSchool">返回列表</el-button>
@@ -25,12 +25,12 @@
               <el-row>
                 <el-col :span="8">
                   <el-form-item label="所属地区:" prop="areaId" class="postInfo-container-item">
-                    <el-cascader :options="area" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="地区搜索-可以搜索地区名称" filterable/>
+                    <el-cascader :options="area" v-model="area_check" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="地区搜索-可以搜索地区名称" filterable @change="changeArea"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="学校类别:" prop="typeId" class="postInfo-container-item">
-                    <el-cascader :options="types" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="类型搜索-可以搜索类型名称" filterable/>
+                    <el-cascader :options="types" v-model="type_check" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="类型搜索-可以搜索类型名称" filterable @change="changeType"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -87,7 +87,7 @@
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 class="avatar-uploader"
-                action="http://api.meishiadd.com/v1/upload">
+                action="http://localhost:9528/upload">
                 <img v-if="temp.logo" :src="temp.logo" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"/>
               </el-upload>
@@ -106,6 +106,7 @@
 
 <script>
 import { search } from '@/api/area'
+import { create, getOne, update } from '@/api/school'
 import { typeSearch } from '@/api/type'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import MDinput from '@/components/MDinput'
@@ -153,8 +154,11 @@ export default {
         schoolNature: '',
         isRecommend: '1',
         status: '2',
-        schoolProfile: ''
+        schoolProfile: '',
+        imgUrl: ''
       },
+      area_check: [],
+      type_check: [],
 
       upload: {
         imgUrl: '',
@@ -190,7 +194,7 @@ export default {
     }
   },
 
-  created() {
+  async created() {
     this.getAreaLists()
     this.getTypeList()
     if (this.$route.params.id != null) {
@@ -204,7 +208,7 @@ export default {
       console.log(res, file)
       this.upload.url = res.data.imgUrl
       this.temp.imgUrl = res.data.url
-      this.temp.thumb = res.data.url + res.data.imgUrl
+      this.temp.logo = res.data.url + res.data.imgUrl
       // this.upload.imgUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
@@ -216,16 +220,94 @@ export default {
       return isLt2M
     },
 
+    // 根据id查询学校详情
+    async getFindOne() {
+      try {
+        var data = await getOne(this.$route.params.id)
+        this.temp = data.data
+        this.temp.isRecommend = JSON.stringify(this.temp.isRecommend)
+        this.temp.status = JSON.stringify(this.temp.status)
+        this.temp.schoolLevel = JSON.stringify(this.temp.schoolLevel)
+        this.temp.schoolNature = JSON.stringify(this.temp.schoolNature)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
     listSchool() {
       this.$router.push('/school/list')
+    },
+
+    changeArea(val) {
+      this.temp.areaId = val[val.length - 1]
+    },
+
+    changeType(val) {
+      this.temp.typeId = val[val.length - 1]
     },
 
     // 地区筛选
     getAreaLists() {
       search().then(data => {
         this.area = data.data
+        this.area.forEach(e => {
+          if (e.value === this.temp.areaId) {
+            this.area_check = [e.value]
+          } else if (e.children) {
+            e.children.forEach(i => {
+              if (i.value === this.temp.areaId) {
+                this.area_check = [e.value, i.value]
+              }
+            })
+          }
+        })
       }).catch(e => {
         console.log(e)
+      })
+    },
+
+    caozuo() {
+      if (this.$route.params.id != null) {
+        this.changeUpdate()
+      } else {
+        this.changeCreate()
+      }
+    },
+
+    // 添加学校
+    changeCreate() {
+      this.$refs['schoolForm'].validate(valid => {
+        if (valid) {
+          this.temp.logo = this.upload.url
+          this.temp.imgUrl = this.upload.url
+          create(this.temp).then(data => {
+            if (data.code === 200) {
+              this.$message({
+                message: data.msg,
+                type: 'success'
+              })
+              this.$router.push('/school/list')
+            }
+          })
+        }
+      })
+    },
+
+    // 编辑学校
+    changeUpdate() {
+      this.$refs['schoolForm'].validate(valid => {
+        if (valid) {
+          this.temp.logo = this.temp.imgUrl
+          update(this.temp.id, this.temp).then(data => {
+            if (data.code === 200) {
+              this.$message({
+                message: data.msg,
+                type: 'success'
+              })
+              this.$router.push('/school/list')
+            }
+          })
+        }
       })
     },
 
@@ -251,6 +333,29 @@ export default {
           }
         })
         this.types = data.data
+        this.types.forEach(u => {
+          if (u.value === this.temp.typeId) {
+            this.type_check = [u.value]
+          } else if (u.children) {
+            u.children.forEach(p => {
+              if (p.value === this.temp.typeId) {
+                this.type_check = [u.value, p.value]
+              } else if (p.children) {
+                p.children.forEach(k => {
+                  if (k.value === this.temp.typeId) {
+                    this.type_check = [u.value, p.value, k.value]
+                  } else if (k.children) {
+                    k.children.forEach(b => {
+                      if (b.value === this.temp.typeId) {
+                        this.type_check = [u.value, p.value, k.value, b.value]
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
+        })
       } catch (error) {
         console.log(error)
       }

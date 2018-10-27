@@ -204,7 +204,7 @@ export default {
           this.temp.imgUrl = this.upload.url
           create(this.temp).then(data => {
             if (data.code === 200) {
-              this.$notify({
+              this.$message({
                 message: data.msg,
                 type: 'success'
               })
