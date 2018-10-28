@@ -47,8 +47,8 @@
                 更多<i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item size="small" @click.native="milieu(scope.row.id)">招生专业</el-dropdown-item>
-                <el-dropdown-item divided size="small">校园环境</el-dropdown-item>
+                <el-dropdown-item size="small">招生专业</el-dropdown-item>
+                <el-dropdown-item divided size="small" @click.native="milieu(scope.row.id)">校园环境</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-row>

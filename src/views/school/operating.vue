@@ -195,7 +195,7 @@ export default {
   },
 
   async created() {
-    this.getAreaLists()
+    this.getAreaList()
     this.getTypeList()
     if (this.$route.params.id != null) {
       this.getFindOne()
@@ -247,22 +247,19 @@ export default {
     },
 
     // 地区筛选
-    getAreaLists() {
-      search().then(data => {
-        this.area = data.data
-        this.area.forEach(e => {
-          if (e.value === this.temp.areaId) {
-            this.area_check = [e.value]
-          } else if (e.children) {
-            e.children.forEach(i => {
-              if (i.value === this.temp.areaId) {
-                this.area_check = [e.value, i.value]
-              }
-            })
-          }
-        })
-      }).catch(e => {
-        console.log(e)
+    async getAreaList() {
+      var data = await search()
+      this.area = data.data
+      this.area.forEach(e => {
+        if (e.value === this.temp.areaId) {
+          this.area_check = [e.value]
+        } else if (e.children) {
+          e.children.forEach(i => {
+            if (i.value === this.temp.areaId) {
+              this.area_check = [e.value, i.value]
+            }
+          })
+        }
       })
     },
 
