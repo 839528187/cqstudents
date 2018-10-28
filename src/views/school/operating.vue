@@ -86,6 +86,7 @@
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
+                :data="datas"
                 class="avatar-uploader"
                 action="http://localhost:9528/upload">
                 <img v-if="temp.logo" :src="temp.logo" class="avatar">
@@ -163,6 +164,10 @@ export default {
       upload: {
         imgUrl: '',
         url: ''
+      },
+
+      datas: {
+        'location': 'school'
       },
 
       cateList: {

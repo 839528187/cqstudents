@@ -57,6 +57,7 @@
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
+                :data="datas"
                 class="avatar-uploader"
                 action="http://localhost:9528/upload">
                 <img v-if="temp.thumb" :src="temp.thumb" class="avatar">
@@ -140,6 +141,11 @@ export default {
         imgUrl: '',
         url: ''
       },
+
+      datas: {
+        'location': 'news'
+      },
+
       category_check: [],
 
       rules: {
