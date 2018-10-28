@@ -47,7 +47,7 @@
                 更多<i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item size="small">招生专业</el-dropdown-item>
+                <el-dropdown-item size="small" @click.native="present(scope.row.id)">招生专业</el-dropdown-item>
                 <el-dropdown-item divided size="small" @click.native="milieu(scope.row.id)">校园环境</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -178,6 +178,11 @@ export default {
     // 学校环境
     milieu(id) {
       this.$router.push('/school/milieu/' + id)
+    },
+
+    // 学校专业
+    present(id) {
+      this.$router.push('/school/present/' + id)
     },
 
     // 学校列表搜索栏使用学校类型筛选

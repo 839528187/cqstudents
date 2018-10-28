@@ -80,6 +80,13 @@ export const constantRouterMap = [
         hidden: true,
         component: () => import('@/views/milieus/index'),
         meta: { title: '学校环境', icon: 'school' }
+      },
+      {
+        path: '/school/present/:id',
+        name: '学校专业',
+        hidden: true,
+        component: () => import('@/views/present/index'),
+        meta: { title: '学校专业', icon: 'school' }
       }
     ]
   },
