@@ -9,9 +9,10 @@
         :show-file-list="true"
         :on-remove="handleRemove"
         :on-success="handleSuccess"
+        :data="uplaodData"
         :before-upload="beforeUpload"
+        :action="actionUpload"
         class="editor-slide-upload"
-        action="http://localhost:9528/upload"
         list-type="picture-card">
         <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
@@ -35,8 +36,12 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      actionUpload: this.uploadUrl,
       listObj: {},
-      fileList: []
+      fileList: [],
+      uplaodData: {
+        'location': 'content'
+      }
     }
   },
   methods: {
