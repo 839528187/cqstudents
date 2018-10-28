@@ -58,8 +58,8 @@
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 :data="datas"
-                class="avatar-uploader"
-                action="http://localhost:9528/upload">
+                :action="actionUrl"
+                class="avatar-uploader">
                 <img v-if="temp.thumb" :src="temp.thumb" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"/>
               </el-upload>
@@ -123,6 +123,7 @@ export default {
       school: [],
       category: [],
       schoolSearchName: '',
+      actionUrl: this.uploadUrl, // 上传图片链接
       temp: {
         id: '',
         schoolId: '0',

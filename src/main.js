@@ -19,6 +19,8 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
+Vue.prototype.uploadUrl = 'http://localhost:9528/upload'
+
 new Vue({
   el: '#app',
   router,

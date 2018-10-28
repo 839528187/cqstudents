@@ -87,8 +87,8 @@
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 :data="datas"
-                class="avatar-uploader"
-                action="http://localhost:9528/upload">
+                :action="actionUrl"
+                class="avatar-uploader">
                 <img v-if="temp.logo" :src="temp.logo" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"/>
               </el-upload>
@@ -146,6 +146,7 @@ export default {
       types: [],
       area: [],
       dialogStatus: '',
+      actionUrl: this.uploadUrl, // 上传图片链接
       temp: {
         areaId: '',
         typeId: '',
@@ -200,11 +201,11 @@ export default {
   },
 
   async created() {
+    if (this.$route.params.id != null) {
+      await this.getFindOne()
+    }
     this.getAreaList()
     this.getTypeList()
-    if (this.$route.params.id != null) {
-      this.getFindOne()
-    }
   },
 
   // 方法
