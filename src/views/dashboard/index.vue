@@ -13,7 +13,7 @@
       </el-col>
       <el-col :span="8">
         <el-card shadow="never">
-          昨日入驻学校 {{ tj.school }} 家
+          昨日入驻学校 {{ tj.schoolNum }} 家
         </el-card>
       </el-col>
     </el-row>
@@ -29,7 +29,7 @@ export default {
       tj: {
         newsNum: 0,
         leaveNum: 0,
-        school: 0
+        schoolNum: 0
       }
     }
   },
@@ -38,10 +38,10 @@ export default {
   },
 
   methods: {
-    getInfo() {
-      indexs().then(data => {
-        this.tj.leaveNum = data.data.leaveNum
-      })
+
+    async getInfo() {
+      var data = await indexs()
+      this.tj = data.data
     }
   }
 
