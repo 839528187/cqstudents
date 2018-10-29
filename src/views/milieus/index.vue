@@ -119,7 +119,6 @@ export default {
               type: 'success',
               message: data.msg
             })
-            this.getList()
           } else {
             return false
           }
