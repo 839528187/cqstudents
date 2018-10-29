@@ -334,6 +334,7 @@ export default {
       try {
         var data = await getOne(id)
         this.mapping = data.data
+        this.mapping.typeId = id
       } catch (error) {
         console.log(error)
       }
@@ -341,8 +342,8 @@ export default {
 
     // 专业介绍
     changeIntroduce(id) {
-      this.getFindOne(id)
       this.mapping.typeId = id
+      this.getFindOne(id)
       this.introduceFormVisible = true
       this.$nextTick(() => {
         this.$refs['introduceForm'].clearValidate()
@@ -351,6 +352,7 @@ export default {
 
     async introduceOperation() {
       try {
+        console.log(this.mapping.typeId)
         var data = await typeIntroduce(this.mapping)
         this.introduceFormVisible = false
         if (data.code === 200) {

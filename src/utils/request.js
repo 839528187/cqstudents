@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 // 创建axios实例
 const service = axios.create({
   baseURL: 'http://localhost:9528/', // api 的 base_url
-  // baseURL: 'http://api.meishiadd.com/v1/', // api 的 base_url
+  // baseURL: 'http://admin.api.meishiadd.com/', // api 的 base_url
   timeout: 5000 // 请求超时时间
 })
 
