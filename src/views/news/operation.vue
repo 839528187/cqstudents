@@ -27,7 +27,9 @@
                       v-model="temp.schoolId"
                       :remote-method="getSchoolSearch"
                       :loading="loading"
+                      :value-key="schoolSearchName.schoolName"
                       filterable
+                      clearable
                       remote
                       reserve-keyword
                       placeholder="请输入学习名称">
@@ -124,7 +126,9 @@ export default {
       loading: false,
       school: [],
       category: [],
-      schoolSearchName: '',
+      schoolSearchName: {
+        'schoolName': ''
+      },
       actionUrl: this.uploadUrl, // 上传图片链接
       temp: {
         id: '',
@@ -176,7 +180,8 @@ export default {
 
   methods: {
     // 查询学校
-    getSchoolSearch() {
+    getSchoolSearch(val) {
+      this.schoolSearchName.schoolName = val
       schoolSearch(this.schoolSearchName).then(data => {
         this.school = data.data
       })
