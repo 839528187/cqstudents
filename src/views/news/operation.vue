@@ -32,7 +32,7 @@
                       clearable
                       remote
                       reserve-keyword
-                      placeholder="请输入学习名称">
+                      placeholder="请输入学校名称搜索">
                       <el-option
                         v-for="item in school"
                         :key="item.id"
@@ -132,7 +132,7 @@ export default {
       actionUrl: this.uploadUrl, // 上传图片链接
       temp: {
         id: '',
-        schoolId: '0',
+        schoolId: '',
         categoryId: '',
         title: '',
         keywords: '',
