@@ -87,6 +87,7 @@
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 :data="datas"
+                :headers="uploadHeaders"
                 :action="actionUrl"
                 class="avatar-uploader">
                 <img v-if="temp.logo" :src="temp.logo" class="avatar">
@@ -112,6 +113,7 @@ import { typeSearch } from '@/api/type'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import MDinput from '@/components/MDinput'
 import Tinymce from '@/components/Tinymce'
+import { getToken } from '@/utils/auth'
 
 const defaultForm = {
   status: '',
@@ -165,6 +167,9 @@ export default {
       upload: {
         imgUrl: '',
         url: ''
+      },
+      uploadHeaders: {
+        'usertoken': getToken()
       },
 
       datas: {

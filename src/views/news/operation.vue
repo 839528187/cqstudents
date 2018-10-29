@@ -58,6 +58,7 @@
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 :data="datas"
+                :headers="uploadHeaders"
                 :action="actionUrl"
                 class="avatar-uploader">
                 <img v-if="temp.thumb" :src="temp.thumb" class="avatar">
@@ -89,6 +90,7 @@ import { newsSearch } from '@/api/category'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import MDinput from '@/components/MDinput'
 import Tinymce from '@/components/Tinymce'
+import { getToken } from '@/utils/auth'
 
 const defaultForm = {
   status: '',
@@ -136,6 +138,10 @@ export default {
         centent: '',
         imgUrl: '',
         urlThumb: ''
+      },
+
+      uploadHeaders: {
+        'usertoken': getToken()
       },
 
       upload: {

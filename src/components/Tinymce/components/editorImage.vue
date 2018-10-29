@@ -10,6 +10,7 @@
         :on-remove="handleRemove"
         :on-success="handleSuccess"
         :data="uplaodData"
+        :headers="uploadHeaders"
         :before-upload="beforeUpload"
         :action="actionUpload"
         class="editor-slide-upload"
@@ -23,7 +24,7 @@
 </template>
 
 <script>
-// import { getToken } from 'api/qiniu'
+import { getToken } from '@/utils/auth'
 
 export default {
   name: 'EditorSlideUpload',
@@ -41,7 +42,12 @@ export default {
       fileList: [],
       uplaodData: {
         'location': 'content'
+      },
+
+      uploadHeaders: {
+        'usertoken': getToken()
       }
+
     }
   },
   methods: {
