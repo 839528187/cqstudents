@@ -6,6 +6,7 @@
         v-model="listQuery.schoolId"
         :remote-method="getSchoolSearch"
         :loading="listLoading"
+        :value-key="schoolSearchName"
         style="width: 200px; margin-left: 10px; margin-bottom:1px;"
         size="small"
         filterable
@@ -179,8 +180,9 @@ export default {
     },
 
     // 查询学校
-    getSchoolSearch() {
-      schoolSearch(this.schoolSearchName).then(data => {
+    getSchoolSearch(val) {
+      console.log(this.schoolSearchName)
+      schoolSearch(val).then(data => {
         this.school = data.data
       })
     },
