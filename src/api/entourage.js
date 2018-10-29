@@ -7,3 +7,10 @@ export function list(query) {
     params: query
   })
 }
+
+export function deletes(id) {
+  return request({
+    url: '/entourage/' + id,
+    method: 'delete'
+  })
+}

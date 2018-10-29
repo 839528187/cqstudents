@@ -20,6 +20,7 @@ Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false
 
 Vue.prototype.uploadUrl = 'http://localhost:9528/upload'
+Vue.prototype.entourageUrl = 'http://localhost:9528/entourage/img'
 
 new Vue({
   el: '#app',

@@ -17,7 +17,7 @@
       list-type="picture-card">
       <i class="el-icon-plus"/>
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible" :title="temp.name">
+    <el-dialog :visible.sync="dialogVisible" :title="temp.title">
       <img :src="temp.url" width="100%" alt="">
     </el-dialog>
 
@@ -25,8 +25,8 @@
     <div v-if="entourageListVisible">
       <el-dialog :visible.sync="entourageListVisible" title="专业介绍" style="width: 50%; margin-left: auto; margin-right: auto;">
         <el-form ref="dataForm" :model="datas" label-position="left" label-width="80px" style="width: 90%; margin-left:50px;">
-          <el-form-item label="环境名称" prop="name">
-            <el-input v-model="datas.name" value="name" placeholder="环境名称"/>
+          <el-form-item label="环境名称" prop="title">
+            <el-input v-model="datas.title" value="title" placeholder="环境名称"/>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -41,7 +41,7 @@
 
 <script>
 import { getToken } from '@/utils/auth'
-import { list } from '@/api/entourage'
+import { list, deletes } from '@/api/entourage'
 export default {
   data() {
     return {
@@ -51,17 +51,18 @@ export default {
       limit: 6,
       count: 0,
       list: [],
-      actionUrl: this.uploadUrl + '/milieus', // 上传图片链接
+      actionUrl: this.entourageUrl, // 上传图片链接
       listQuery: {
         schoolId: this.$route.params.id
       },
       datas: {
-        'name': '',
-        'location': 'milieus'
+        'title': '',
+        'location': 'milieus',
+        'schoolId': this.$route.params.id
       },
       temp: {
         'url': '',
-        'name': '',
+        'title': '',
         'id': ''
       },
       uploadHeaders: {
@@ -102,10 +103,33 @@ export default {
 
     submitUpload() {
       this.$refs.upload.submit()
+      this.entourageListVisible = false
     },
 
     handleRemove(file, fileList) {
       console.log(file)
+      this.$confirm('此操作将删除该环境吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deletes(file.id).then(data => {
+          if (data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: data.msg
+            })
+            this.getList()
+          } else {
+            return false
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     },
     handlePictureCardPreview(file) {
       this.temp = file
