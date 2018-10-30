@@ -24,7 +24,7 @@
     <!--上传环境图片输入名称-->
     <div v-if="entourageListVisible">
       <el-dialog :visible.sync="entourageListVisible" title="专业介绍" style="width: 50%; margin-left: auto; margin-right: auto;">
-        <el-form ref="dataForm" :model="datas" label-position="left" label-width="80px" style="width: 90%; margin-left:50px;">
+        <el-form ref="dataForm" :model="datas" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
           <el-form-item label="环境名称" prop="title">
             <el-input v-model="datas.title" value="title" placeholder="环境名称"/>
           </el-form-item>
@@ -50,6 +50,7 @@ export default {
       entourageListVisible: false,
       limit: 6,
       count: 0,
+      isVisible: 1,
       list: [],
       actionUrl: this.entourageUrl, // 上传图片链接
       listQuery: {
@@ -98,12 +99,12 @@ export default {
     ChangeCancel() {
       this.entourageListVisible = false
       this.resetTemps()
-      this.getList()
     },
 
     submitUpload() {
-      this.$refs.upload.submit()
       this.entourageListVisible = false
+      this.isVisible = 2
+      this.$refs.upload.submit()
     },
 
     handleRemove(file, fileList) {
@@ -136,7 +137,9 @@ export default {
     },
 
     onSuccess() {
-      this.entourageListVisible = true
+      if (this.isVisible === 1) {
+        this.entourageListVisible = true
+      }
     },
 
     beforeAvatarUpload(file) {
