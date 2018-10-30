@@ -109,7 +109,7 @@
 <script>
 import { search } from '@/api/area'
 import { create, getOne, update } from '@/api/school'
-import { typeSearch } from '@/api/type'
+import { parent } from '@/api/type'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import MDinput from '@/components/MDinput'
 import Tinymce from '@/components/Tinymce'
@@ -322,7 +322,7 @@ export default {
     // 类型筛选
     async getTypeList() {
       try {
-        var data = await typeSearch()
+        var data = await parent()
         data.data.forEach(e => {
           if (e.children && e.children.length > 0) {
             e.children.forEach(i => {
@@ -352,12 +352,6 @@ export default {
                 p.children.forEach(k => {
                   if (k.value === this.temp.typeId) {
                     this.type_check = [u.value, p.value, k.value]
-                  } else if (k.children) {
-                    k.children.forEach(b => {
-                      if (b.value === this.temp.typeId) {
-                        this.type_check = [u.value, p.value, k.value, b.value]
-                      }
-                    })
                   }
                 })
               }
