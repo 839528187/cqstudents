@@ -89,7 +89,7 @@ export default {
     },
 
     resetTemps() {
-      this.mapping = {
+      this.temp = {
         id: '',
         name: '',
         url: ''
@@ -105,6 +105,9 @@ export default {
       this.entourageListVisible = false
       this.isVisible = 2
       this.$refs.upload.submit()
+      setTimeout(() => {
+        this.isVisible = 1
+      }, 300)
     },
 
     handleRemove(file, fileList) {
@@ -129,6 +132,7 @@ export default {
           type: 'info',
           message: '已取消删除'
         })
+        this.getList()
       })
     },
     handlePictureCardPreview(file) {

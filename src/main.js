@@ -19,10 +19,10 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
-// Vue.prototype.uploadUrl = 'http://admin.api.meishiadd.com/upload'
-// Vue.prototype.entourageUrl = 'http://admin.api.meishiadd.com/entourage/img'
-Vue.prototype.uploadUrl = 'http://localhost:9528/upload'
-Vue.prototype.entourageUrl = 'http://localhost:9528/entourage/img'
+Vue.prototype.uploadUrl = 'http://admin.api.meishiadd.com/upload'
+Vue.prototype.entourageUrl = 'http://admin.api.meishiadd.com/entourage/img'
+// Vue.prototype.uploadUrl = 'http://localhost:9528/upload'
+// Vue.prototype.entourageUrl = 'http://localhost:9528/entourage/img'
 
 new Vue({
   el: '#app',
