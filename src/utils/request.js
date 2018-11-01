@@ -1,15 +1,15 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import { MessageBox } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
-  // baseURL: 'http://localhost:9528/', // api 的 base_url
-  baseURL: 'http://admin.api.meishiadd.com/', // api 的 base_url
+  baseURL: 'http://localhost:9528/', // api 的 base_url
+  // baseURL: 'http://admin.api.meishiadd.com/', // api 的 base_url
   timeout: 5000 // 请求超时时间
 })
-
+axios.defaults.withCredentials = true
 // request拦截器
 service.interceptors.request.use(
   config => {
@@ -33,7 +33,7 @@ service.interceptors.response.use(
      */
     const res = response.data
     if (res.code !== 200) {
-      Message({
+      this.$message({
         message: res.msg,
         type: 'error',
         duration: 5 * 1000
@@ -54,7 +54,7 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
+    this.$message({
       message: error.msg,
       type: 'error',
       duration: 5 * 1000
