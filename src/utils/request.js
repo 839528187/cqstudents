@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { MessageBox } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth'
 
@@ -33,7 +33,7 @@ service.interceptors.response.use(
      */
     const res = response.data
     if (res.code !== 200) {
-      this.$message({
+      Message({
         message: res.msg,
         type: 'error',
         duration: 5 * 1000
@@ -54,7 +54,7 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    this.$message({
+    Message({
       message: error.msg,
       type: 'error',
       duration: 5 * 1000
