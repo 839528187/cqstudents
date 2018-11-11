@@ -81,7 +81,7 @@
 <script>
 import { list, deletes } from '@/api/school'
 import { search } from '@/api/area'
-import { typeSearch } from '@/api/type'
+import { parent } from '@/api/type'
 export default {
   data() {
     return {
@@ -188,7 +188,7 @@ export default {
     // 学校列表搜索栏使用学校类型筛选
     async getTypeList() {
       try {
-        var data = await typeSearch()
+        var data = await parent()
         data.data.forEach(e => {
           if (e.children && e.children.length > 0) {
             e.children.forEach(i => {
