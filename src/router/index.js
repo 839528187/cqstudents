@@ -41,6 +41,21 @@ export const constantRouterMap = [
   },
 
   {
+    path: '/cache',
+    component: Layout,
+    redirect: '/cache',
+    // name: '主页',
+    // hidden: true,
+    meta: { title: '更新缓存' },
+    children: [{
+      path: '/cache',
+      name: '更新缓存',
+      component: () => import('@/views/cache/index'),
+      meta: { title: '更新缓存', icon: 'homes' }
+    }]
+  },
+
+  {
     path: '/school',
     component: Layout,
     redirect: '/school/list',

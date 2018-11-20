@@ -6,3 +6,24 @@ export function indexs() {
     method: 'get'
   })
 }
+
+export function webRedis() {
+  return request({
+    url: '/redis',
+    method: 'get'
+  })
+}
+
+export function webType() {
+  return request({
+    url: '/redis/type',
+    method: 'get'
+  })
+}
+
+export function webArea() {
+  return request({
+    url: '/redis/area',
+    method: 'get'
+  })
+}
