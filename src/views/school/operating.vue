@@ -16,8 +16,14 @@
         <el-row>
           <el-col :span="20">
             <el-form-item style="margin-bottom: 40px;" prop="schoolName">
-              <MDinput v-model="temp.schoolName" :maxlength="100" value="schoolName" name="name" required>
-                学校名称
+              <MDinput v-model="temp.schoolName" :maxlength="100" value="schoolName" name="schoolName" required>
+                学校名称:
+              </MDinput>
+            </el-form-item>
+
+            <el-form-item style="margin-bottom: 40px;" prop="schoolName">
+              <MDinput v-model="temp.address" :maxlength="100" value="address" name="address" required>
+                学校地址:
               </MDinput>
             </el-form-item>
 
@@ -159,6 +165,7 @@ export default {
         isRecommend: '1',
         status: '2',
         schoolProfile: '',
+        address: '',
         imgUrl: ''
       },
       area_check: [],
