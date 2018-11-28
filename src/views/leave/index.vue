@@ -74,87 +74,86 @@
 
     <!--详情-->
     <el-dialog :visible.sync="dialogFormVisibles" title="留言详情" style="width: 100%; margin-left: auto; margin-right: auto;">
-      <div style="">
-        <div>
+      <div class="liuyan_box">
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.name">
             <template slot="prepend">真实姓名:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.phone">
             <template slot="prepend">留言手机号:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.areaName">
             <template slot="prepend">留言地区:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.address">
             <template slot="prepend">家庭地址:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.sSchoolName">
             <template slot="prepend">留言学校:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.schoolName">
             <template slot="prepend">毕业学校:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.specialty">
             <template slot="prepend">意向专业:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.qq">
             <template slot="prepend">qq号码:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
           <el-input :readonly="readonly" v-model="temp.score">
             <template slot="prepend">分数线:</template>
           </el-input>
         </div>
-        <div style="margin-bottom:10px"/>
-        <div>
+
+        <div class="liuyan">
+          <el-input :readonly="readonly" v-model="temp.status">
+            <template slot="prepend">留言状态:</template>
+          </el-input>
+        </div>
+
+        <div class="liuyan">
+          <el-input :readonly="readonly" v-model="temp.type">
+            <template slot="prepend">留言类型:</template>
+          </el-input>
+        </div>
+
+        <div class="liuyan">
+          <el-input :readonly="readonly" v-model="temp.createdAt">
+            <template slot="prepend">添加时间:</template>
+          </el-input>
+        </div>
+        <div class="liuyan_w">
           <el-input :readonly="readonly" v-model="temp.education">
             <template slot="prepend">学历:</template>
           </el-input>
         </div>
         <div style="margin-bottom:10px"/>
-        <div>
+        <div class="liuyan_w">
           <el-input :readonly="readonly" :autosize="autosize" v-model="temp.remark" label="备注" type="textarea"/>
-        </div>
-        <div style="margin-bottom:10px"/>
-        <div>
-          <el-input :readonly="readonly" v-model="temp.status">
-            <template slot="prepend">留言状态:</template>
-          </el-input>
-        </div>
-        <div style="margin-bottom:10px"/>
-        <div>
-          <el-input :readonly="readonly" v-model="temp.type">
-            <template slot="prepend">留言类型:</template>
-          </el-input>
-        </div>
-        <div style="margin-bottom:10px"/>
-        <div>
-          <el-input :readonly="readonly" v-model="temp.createdAt">
-            <template slot="prepend">添加时间:</template>
-          </el-input>
         </div>
       </div>
     </el-dialog>
@@ -296,4 +295,19 @@ export default {
 
 }
 </script>
+
+<style>
+
+.liuyan_box{
+  overflow: hidden;
+}
+.liuyan{
+  width: 45%;
+  float: left;
+  margin: 0 5% 10px 0
+}
+.liuyan_w{
+  margin-right: 5%;
+}
+</style>
 
