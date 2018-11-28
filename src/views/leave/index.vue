@@ -28,6 +28,9 @@
       <el-table-column label="id" prop="id" align="center" width="60px"/>
       <el-table-column label="姓名" prop="name" align="center"/>
       <el-table-column label="手机号" prop="phone" align="center"/>
+      <el-table-column label="来源" prop="ref" align="center"/>
+      <el-table-column label="地区" prop="areaName" align="center"/>
+      <el-table-column label="所属学校" prop="sSchoolName" align="center"/>
       <el-table-column label="类型" prop="type" align="center">
         <template slot-scope="scope">
           {{ scope.row.type == 2 ? '无效留言' : '有效留言' }}
@@ -70,76 +73,89 @@
     </div>
 
     <!--详情-->
-    <el-dialog :visible.sync="dialogFormVisibles" title="留言详情" style="width: 1110px; margin-left: auto; margin-right: auto;">
-
-      <div>
-        <el-input :readonly="readonly" v-model="temp.name">
-          <template slot="prepend">真实姓名:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.phone">
-          <template slot="prepend">留言手机号:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.specialty">
-          <template slot="prepend">意向专业:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.qq">
-          <template slot="prepend">qq号码:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.address">
-          <template slot="prepend">家庭地址:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.score">
-          <template slot="prepend">分数线:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.education">
-          <template slot="prepend">学历:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.schoolId">
-          <template slot="prepend">学校id:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" :autosize="autosize" v-model="temp.remark" label="备注" type="textarea"/>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.status">
-          <template slot="prepend">留言状态:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.type">
-          <template slot="prepend">留言类型:</template>
-        </el-input>
-      </div>
-      <div style="margin-bottom:10px"/>
-      <div>
-        <el-input :readonly="readonly" v-model="temp.createdAt">
-          <template slot="prepend">添加时间:</template>
-        </el-input>
+    <el-dialog :visible.sync="dialogFormVisibles" title="留言详情" style="width: 100%; margin-left: auto; margin-right: auto;">
+      <div style="">
+        <div>
+          <el-input :readonly="readonly" v-model="temp.name">
+            <template slot="prepend">真实姓名:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.phone">
+            <template slot="prepend">留言手机号:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.areaName">
+            <template slot="prepend">留言地区:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.address">
+            <template slot="prepend">家庭地址:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.sSchoolName">
+            <template slot="prepend">留言学校:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.schoolName">
+            <template slot="prepend">毕业学校:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.specialty">
+            <template slot="prepend">意向专业:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.qq">
+            <template slot="prepend">qq号码:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.score">
+            <template slot="prepend">分数线:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.education">
+            <template slot="prepend">学历:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" :autosize="autosize" v-model="temp.remark" label="备注" type="textarea"/>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.status">
+            <template slot="prepend">留言状态:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.type">
+            <template slot="prepend">留言类型:</template>
+          </el-input>
+        </div>
+        <div style="margin-bottom:10px"/>
+        <div>
+          <el-input :readonly="readonly" v-model="temp.createdAt">
+            <template slot="prepend">添加时间:</template>
+          </el-input>
+        </div>
       </div>
     </el-dialog>
 
@@ -178,7 +194,12 @@ export default {
         education: '',
         schoolId: '',
         remark: '',
-        scloolName: ''
+        scloolName: '',
+        areaId: '',
+        ref: '',
+        ip: '',
+        areaName: '',
+        sSchoolName: ''
       }
     }
   },
