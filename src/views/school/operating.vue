@@ -30,6 +30,12 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
+                  <el-form-item label="建校时间:" prop="buildingSchoolTime" class="postInfo-container-item">
+                    <el-input v-model="temp.buildingSchoolTime" size="small" style="width: 160px; margin-left: 0px;" value="buildingSchoolTime" name="buildingSchoolTime" required/>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="8">
                   <el-form-item label="所属地区:" prop="areaId" class="postInfo-container-item">
                     <el-cascader :options="area" v-model="area_check" style="width: 210px; margin-left: 10px; margin-bottom:1px;" size="small" clearable placeholder="地区搜索-可以搜索地区名称" filterable @change="changeArea"/>
                   </el-form-item>
@@ -166,7 +172,8 @@ export default {
         status: '2',
         schoolProfile: '',
         address: '',
-        imgUrl: ''
+        imgUrl: '',
+        buildingSchoolTime: ''
       },
       area_check: [],
       type_check: [],
@@ -207,6 +214,9 @@ export default {
         ],
         schoolProfile: [
           { required: true, message: '学校简介不能为空', trigger: 'change' }
+        ],
+        buildingSchoolTime: [
+          { required: true, message: '建校时间不能为空', trigger: 'change' }
         ]
       }
     }
